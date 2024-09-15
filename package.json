@@ -14,6 +14,7 @@
     "check:all": "prettier --write --ignore-path .gitignore . && next lint && jest --silent"
   },
   "dependencies": {
+    "babel-preset-current-node-syntax": "^1.0.0",
     "next": "14.2.11",
     "react": "^18",
     "react-dom": "^18"

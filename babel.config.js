@@ -3,6 +3,7 @@ module.exports = {
     '@babel/preset-env',
     '@babel/preset-react',
     '@babel/preset-typescript',
+    'babel-preset-current-node-syntax'
   ],
   plugins: ['@emotion/babel-plugin'],
 };
