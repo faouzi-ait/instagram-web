@@ -10,7 +10,8 @@
     "test": "jest --silent",
     "lint": "next lint",
     "format:fix": "prettier --write --ignore-path .gitignore .",
-    "quality": "prettier --write --ignore-path .gitignore . && next lint"
+    "quality": "prettier --write --ignore-path .gitignore . && next lint",
+    "check:all": "prettier --write --ignore-path .gitignore . && next lint && jest --silent"
   },
   "dependencies": {
     "next": "14.2.11",
