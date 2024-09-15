@@ -1,3 +1,18 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["next", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "warn", // Warn when console.log is used
+    "semi": ["error", "always"], // Enforce semicolons
+    "quotes": ["error", "single"], // Enforce single quotes
+    "indent": ["error", 2], // Enforce 2-space indentation
+    "no-unused-vars": "warn" // Warn about unused variables
+  }
 }
