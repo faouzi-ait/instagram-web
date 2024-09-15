@@ -1,7 +1,6 @@
 import styles from './page.module.css';
 
 export default function Home() {
-  // COMMENT HERE
   return (
     <div className={styles.page}>
       <ol>
