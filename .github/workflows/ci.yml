@@ -1,6 +1,5 @@
 name: CI workflow
-on:
-  push
+on: push
 
 jobs:
   run-linter-and-tests:
