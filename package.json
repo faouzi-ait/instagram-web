@@ -6,12 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:watch": "jest --watch",
-    "test": "jest --silent",
-    "lint": "next lint",
     "format:fix": "prettier --write --ignore-path .gitignore .",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "quality": "prettier --write --ignore-path .gitignore . && next lint",
-    "check:all": "prettier --write --ignore-path .gitignore . && next lint && jest --silent"
+    "quality:all": "prettier --write --ignore-path .gitignore . && next lint && jest"
   },
   "dependencies": {
     "babel-preset-current-node-syntax": "^1.0.0",
