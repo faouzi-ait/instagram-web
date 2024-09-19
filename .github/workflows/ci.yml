@@ -26,4 +26,4 @@ jobs:
     needs: lint_and_tests # This job will run only if "lint_and_tests" succeeds
     steps:
       - name: Trigger Netlify Deploy
-        run: curl -X POST -d '{}' "${{ secrets.NETLIFY_DEPLOY_HOOK_URL }}" # Use the secret variable here
+        run: curl -X POST -d '{}' "${{ secrets.NETLIFY_DEPLOY_HOOK_URL }}"
