@@ -21,18 +21,9 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - name: Deploy to netlify
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        with:
-          args: deploy --dir=build --prod
-          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
-
-  # deploy_to_netlify:
-  #   runs-on: ubuntu-latest
-  #   needs: lint_and_tests # This job will run only if "lint_and_tests" succeeds
-  #   steps:
-  #     - name: Trigger Netlify Deploy
-  #       run: curl -X POST -d '{}' "${{ secrets.NETLIFY_DEPLOY_HOOK_URL }}"
+  deploy_to_netlify:
+    runs-on: ubuntu-latest
+    needs: lint_and_tests # This job will run only if "lint_and_tests" succeeds
+    steps:
+      - name: Trigger Netlify Deploy
+        run: curl -X POST -d '{}' "${{ secrets.NETLIFY_DEPLOY_HOOK_URL }}"
