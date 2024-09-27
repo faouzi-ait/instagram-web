@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <ol>
-        <li>NOW IT WORKS</li>
+        <li>PR CHECKS!!!!!</li>
         <li>
           Get started by editing <code>src/app/page.tsx</code>.
         </li>
