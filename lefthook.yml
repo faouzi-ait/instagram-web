@@ -1,12 +1,14 @@
 pre-commit:
   commands:
-    quality:
-      run: npm run quality:all
-    #   run: npm run format:fix
-    # lint:
-    #   run: npm run lint
-    # test:
-    #   run: npm run test
+    format:
+      run: npm run format:fix
+    lint:
+      run: npm run lint
+    test:
+      run: npm run test
 pre-push:
-  quality:
-    run: npm run quality:all
+  comands: 
+    lint:
+      run: npm run lint
+    test:
+      run: npm run test
