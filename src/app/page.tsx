@@ -5,6 +5,7 @@ export default function Home() {
     <div className={styles.page}>
       <ol>
         <li>PR CHECKS!!!!!</li>
+        <li>OTHER BRANCH</li>
         <li>
           Get started by editing <code>src/app/page.tsx</code>.
         </li>
