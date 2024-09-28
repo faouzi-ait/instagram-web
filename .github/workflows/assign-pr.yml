@@ -1,0 +1,14 @@
+name: Auto Assign PR Author as Reviewer
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign_reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign author as reviewer
+        uses: actions-ecosystem/action-add-reviewer@v1
+        with:
+          reviewers: ${{ github.actor }} # This assigns the PR author as the reviewer
