@@ -7,7 +7,7 @@ pre-commit:
     test:
       run: npm run test
 pre-push:
-  comands: 
+  commands:
     lint:
       run: npm run lint
     test:
