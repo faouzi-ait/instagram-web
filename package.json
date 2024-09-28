@@ -6,10 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format:fix": "prettier --write --ignore-path .gitignore .",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
+    "format:fix": "prettier --write --ignore-path .gitignore .",
     "quality": "prettier --write --ignore-path .gitignore . && next lint",
     "quality:all": "prettier --write --ignore-path .gitignore . && next lint && jest"
   },
