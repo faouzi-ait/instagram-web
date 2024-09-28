@@ -6,6 +6,7 @@ export default function Home() {
       <ol>
         <li>PR CHECKS!!!!!</li>
         <li>OTHER BRANCH</li>
+        <li>LAST UPDATE!!!</li>
         <li>
           Get started by editing <code>src/app/page.tsx</code>.
         </li>

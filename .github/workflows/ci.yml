@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Pipeline - Deployment of the main branch
 
 on:
   push:
