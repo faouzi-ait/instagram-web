@@ -8,6 +8,8 @@ pre-commit:
       run: npm run test
 pre-push:
   commands:
+    format:
+      run: npm run format:fix
     lint:
       run: npm run lint
     test:
