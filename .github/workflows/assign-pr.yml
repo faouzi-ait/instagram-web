@@ -1,14 +1,18 @@
-name: Auto Assign PR Author as Reviewer
+name: Auto Assign Reviewers
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened, synchronize]
 
 jobs:
-  assign_reviewer:
+  add_reviewers:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Assign author as reviewer
-        uses: actions-ecosystem/action-add-reviewer@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Add branch owner as a reviewer
+        uses: cirrus-actions/reviewers@v1
         with:
-          reviewers: ${{ github.actor }} # This assigns the PR author as the reviewer
+          reviewers: ${{ github.actor }} # Automatically adds the branch owner
