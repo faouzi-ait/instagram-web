@@ -2,7 +2,7 @@ name: Feature Branch Pipeline
 
 on:
   push:
-    branches-ignore:  # Trigger the workflow for pushes to any branch except 'main'
+    branches-ignore: # Trigger the workflow for pushes to any branch except 'main'
       - main
 
 jobs:
