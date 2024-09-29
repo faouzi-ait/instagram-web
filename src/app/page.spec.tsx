@@ -1,12 +1,39 @@
-import '@testing-library/jest-dom';
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
-import Home from './page';
+import Home from '../app/page';
 
-describe('Home', () => {
-  it('renders a heading', () => {
-    render(<Home />);
+const mockStore = configureMockStore();
+const store = mockStore({
+  counter: {
+    value: 2,
+  },
+  theme: {
+    theme: 'light',
+    value: 'light',
+  },
+});
 
-    const word = screen.getByText('Save and see your changes instantly.');
-    expect(word).toBeInTheDocument();
+beforeAll(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
   });
+});
+
+test('renders a heading', () => {
+  render(
+    <Provider store={store}>
+      <Home />
+    </Provider>
+  );
+  const word = screen.getByText('This is the home page');
+  expect(word).toBeInTheDocument();
 });
