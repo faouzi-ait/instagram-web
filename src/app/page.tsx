@@ -12,6 +12,7 @@ import ThemeToggle from './components/ThemeToggle';
 // import styles from './page.module.css';
 
 export default function Home() {
+  // COMMENT HERE
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch<AppDispatch>();
 
