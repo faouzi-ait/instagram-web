@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from '../../redux/slices/themeSlice';
 import { AppDispatch } from '@/redux/store';
-import { PayloadAction } from '@reduxjs/toolkit';
 
 const ThemeToggle = () => {
   const { theme } = useSelector((state: any) => state.theme);
