@@ -5,8 +5,9 @@ import { setTheme } from '../../redux/slices/themeSlice';
 import { AppDispatch } from '@/redux/store';
 
 const ThemeToggle = () => {
+  // eslint-disable-next-line
+  const { theme } = useSelector((state) => state.theme);
   const dispatch = useDispatch<AppDispatch>();
-  const { theme } = useSelector((state) => state?.theme);
 
   useEffect(() => {
     const systemPrefersDark = window.matchMedia(
