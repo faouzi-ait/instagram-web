@@ -16,11 +16,14 @@ export default function Home() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch<AppDispatch>();
 
+  console.log(process.env.NEXT_PUBLIC_API_URL);
+
   return (
     <div>
       <h1>This is the home page</h1>
       <ThemeToggle />
       <h1>Count: {count}</h1>
+       <h1>{process.env.NEXT_PUBLIC_API_URL}</h1>
       <button onClick={() => dispatch(increment())}>Increment</button>
       <button
         onClick={() => dispatch(decrement())}
