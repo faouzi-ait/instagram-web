@@ -1,34 +1,41 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage
+import storage from 'redux-persist/lib/storage';
 
-import counterReducer from './slices/counterSlice';
-import themeReducer from './slices/themeSlice';
+import { counterReducer, themeReducer, authReducer } from './slices';
+import { apiPostListing, apiSlice, uploadApi } from './apiServices';
 
 const persistConfig = {
-  key: 'root', // Key for storage
-  storage, // Storage engine
+  key: 'root',
+  storage,
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
+  auth: authReducer,
   counter: counterReducer,
   theme: themeReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
 // Create a persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Create the Redux store
 export const store = configureStore({
   reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'], // Ignore these actions for serializable check
-      },
-    }),
-  devTools: process.env.NODE_ENV !== 'production', // Enable Redux DevTools in development
+      immutableCheck: false,
+      serializableCheck: false,
+      // serializableCheck: {
+      //   ignoredActions: [PER.FLUSH, PER.REHYDRATE, PER.PAUSE, PER.PERSIST, PER.PURGE, PER.REGISTER],
+      // },
+    }).concat(
+      apiSlice.middleware,
+      apiPostListing.middleware,
+      uploadApi.middleware
+    ),
 });
 
 // Create a persistor

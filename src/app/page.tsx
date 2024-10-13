@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../redux/store';
 import {
@@ -9,6 +10,8 @@ import {
 } from '../redux/slices/counterSlice';
 import ThemeToggle from './components/ThemeToggle';
 
+import { useGetPostsQuery } from '../redux/apiServices/postsApi';
+
 // import styles from './page.module.css';
 
 export default function Home() {
@@ -16,7 +19,17 @@ export default function Home() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch<AppDispatch>();
 
-  console.log(process.env.NEXT_PUBLIC_API_URL);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(2);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const { data, error, isLoading, refetch } = useGetPostsQuery({
+    searchTerm: '',
+    pageSize: size,
+    page: page,
+  });
+
+  console.log(data);
 
   return (
     <div>
