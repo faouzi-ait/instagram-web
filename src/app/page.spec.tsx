@@ -1,18 +1,9 @@
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
+
 import Home from '../app/page';
 
-const mockStore = configureMockStore();
-const store = mockStore({
-  counter: {
-    value: 2,
-  },
-  theme: {
-    theme: 'light',
-    value: 'light',
-  },
-});
+import { store } from '../redux/store';
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {
