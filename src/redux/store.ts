@@ -7,16 +7,14 @@ import { counterReducer, themeReducer, authReducer } from './slices';
 import { apiPostListing, apiSlice, uploadApi } from './apiServices';
 
 const persistConfig = {
-  key: 'root', // Key for storage
-  storage, // Storage engine
+  key: 'root',
+  storage,
 };
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   counter: counterReducer,
   theme: themeReducer,
-  [apiPostListing.reducerPath]: apiPostListing.reducer,
-  // eslint-disable-next-line
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
