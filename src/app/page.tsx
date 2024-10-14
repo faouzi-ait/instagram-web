@@ -8,32 +8,9 @@ import Button from './components/button';
 import ThemeToggle from './components/ThemeToggle';
 
 import { removeDuplicates } from './utils/functions';
+import { Post } from './utils/types'
 
 import styles from './page.module.css';
-
-interface Post {
-  _id: string;
-  photo: string;
-  post: string;
-  createdAt: string;
-  favorites: string[];
-  likes: string[];
-  publicId: string;
-  ratings: number;
-  reviews: Review[];
-  totalReviews: number;
-  totalViews: number;
-  updatedAt: string;
-  user: string;
-}
-
-interface Review {
-  comment: string;
-  rating: number;
-  user: string;
-  username: string;
-  _id: string;
-}
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);

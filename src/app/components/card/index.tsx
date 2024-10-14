@@ -24,6 +24,9 @@ const PostCard: React.FC<PostCardProps> = ({
 
   return (
     <div className={styles.card}>
+      <div className={styles.topContent}>
+
+      </div>
       <div className={styles.imageWrapper}>
         {!isLoading ? (
           <Image src={photo} alt='Post Photo' layout='fill' objectFit='cover' />
