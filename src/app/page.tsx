@@ -29,8 +29,6 @@ export default function Home() {
     page: page,
   });
 
-  console.log(data);
-
   return (
     <div>
       <h1>This is the home page</h1>
