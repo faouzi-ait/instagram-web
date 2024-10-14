@@ -8,7 +8,6 @@ const baseQuery = fetchBaseQuery({
   mode: 'cors',
   credentials: 'include',
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
-  // baseUrl: 'https://insta-app-server.onrender.com',
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
       return action.payload[reducerPath];
