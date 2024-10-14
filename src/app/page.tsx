@@ -8,7 +8,7 @@ import Button from './components/button';
 import ThemeToggle from './components/ThemeToggle';
 
 import { removeDuplicates } from './utils/functions';
-import { Post } from './utils/types'
+import { Post } from './utils/types';
 
 import styles from './page.module.css';
 
