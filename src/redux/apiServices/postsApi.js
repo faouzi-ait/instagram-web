@@ -4,7 +4,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getPosts: builder.query({
-      query: ({ searchTerm, page, pageSize }) => {
+      query: ({ searchTerm, page, pageSize = 2 }) => {
         const queryParams = new URLSearchParams({
           q: searchTerm,
           page,
