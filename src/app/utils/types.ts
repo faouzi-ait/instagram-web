@@ -21,3 +21,9 @@ export interface Review {
   username: string;
   _id: string;
 }
+
+export interface AuthState {
+  user: object | null;
+  token: string | null;
+  isLoggedIn: boolean;
+}

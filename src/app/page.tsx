@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { useGetPostsQuery } from '../redux/apiServices/postsApi';
 
 import PostCard from './components/card';
@@ -13,6 +15,7 @@ import { Post } from './utils/types';
 // import styles from './page.module.css';
 
 export default function Home() {
+  const selector = useSelector((item: RootState) => item.auth);
   const [page, setPage] = useState<number>(1);
   const [size] = useState<number>(2);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -23,6 +26,8 @@ export default function Home() {
     pageSize: size,
     page,
   });
+
+  console.log(selector);
 
   useEffect(() => {
     if (data) {

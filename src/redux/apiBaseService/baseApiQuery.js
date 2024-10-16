@@ -19,9 +19,9 @@ const baseQuery = fetchBaseQuery({
       return action.payload;
     }
   },
-  prepareHeaders: async (headers) => {
-    const token = ''; // GET TOKEN FROM STATE STORE
-
+  prepareHeaders: async (headers, { getState }) => {
+    const token = getState().auth?.accessToken?.token || '';
+    
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -34,7 +34,8 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
   if (result?.error?.status === 401 || result?.error?.status === 403) {
     try {
-      const refreshToken = ''; // GET TOKEN FROM STATE STORE
+      const state = api.getState();
+      const refreshToken = state.auth?.refreshToken || '';
 
       if (refreshToken) {
         const { data } = await axios.post(

@@ -6,6 +6,8 @@ import storage from 'redux-persist/lib/storage';
 import { counterReducer, themeReducer, authReducer } from './slices';
 import { apiPostListing, apiSlice, uploadApi } from './apiServices';
 
+import { AuthState } from '@/app/utils/types';
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -18,7 +20,6 @@ export const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
-// Create a persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
@@ -28,9 +29,6 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-      // serializableCheck: {
-      //   ignoredActions: [PER.FLUSH, PER.REHYDRATE, PER.PAUSE, PER.PERSIST, PER.PURGE, PER.REGISTER],
-      // },
     }).concat(
       apiSlice.middleware,
       apiPostListing.middleware,
@@ -38,9 +36,12 @@ export const store = configureStore({
     ),
 });
 
-// Create a persistor
 export const persistor = persistStore(store);
 
-// Export types for RootState and AppDispatch
-export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+export interface RootState {
+  auth: AuthState;
+  counter: ReturnType<typeof counterReducer>;
+  theme: ReturnType<typeof themeReducer>;
+  [apiSlice.reducerPath]: ReturnType<typeof apiSlice.reducer>;
+}

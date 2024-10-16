@@ -1,9 +1,16 @@
 /* eslint-disable no-unused-expressions */
+import { AuthState } from '@/app/utils/types';
 import { createSlice } from '@reduxjs/toolkit';
+
+const initialState: AuthState = {
+  user: null,
+  token: null,
+  isLoggedIn: false,
+};
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: { user: null, token: null, isLoggedIn: false },
+  initialState,
   reducers: {
     setCredentials: (state, action) => {
       const { user, accessToken } = action.payload;
