@@ -10,7 +10,7 @@ import ThemeToggle from './components/ThemeToggle';
 import { removeDuplicates } from './utils/functions';
 import { Post } from './utils/types';
 
-import styles from './page.module.css';
+// import styles from './page.module.css';
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);
@@ -18,7 +18,7 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const { data, error, isLoading, refetch } = useGetPostsQuery({
+  const { data, /*error,*/ isLoading /*, refetch*/ } = useGetPostsQuery({
     searchTerm: '',
     pageSize: size,
     page,
@@ -31,7 +31,7 @@ export default function Home() {
         setHasMore(false);
       }
     }
-  }, [data]);
+  }, [data, size]);
 
   const loadMorePosts = () => {
     if (hasMore) setPage((prevPage) => prevPage + 1);
@@ -45,7 +45,7 @@ export default function Home() {
       <ThemeToggle />
 
       <div>
-        {uniquePosts.map((post: Post, i) => (
+        {uniquePosts.map((post: Post) => (
           <PostCard
             key={post._id}
             post={post.post}

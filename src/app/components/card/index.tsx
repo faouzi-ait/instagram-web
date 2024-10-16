@@ -24,12 +24,17 @@ const PostCard: React.FC<PostCardProps> = ({
 
   return (
     <div className={styles.card}>
-      <div className={styles.topContent}>
-
-      </div>
+      <div className={styles.topContent}></div>
       <div className={styles.imageWrapper}>
         {!isLoading ? (
-          <Image src={photo} alt='Post Photo' layout='fill' objectFit='cover' />
+          <Image
+            src={photo}
+            sizes='auto'
+            alt='Post Photo'
+            style={{ objectFit: 'cover' }}
+            fill
+            priority
+          />
         ) : (
           <div className={styles.loaderContainer}>
             <div className={styles.loader}></div>
