@@ -36,11 +36,7 @@ const KebabMenu = ({ children }: KebabMenuProp) => {
         &#x22EE;
       </button>
 
-      {menuOpen && (
-        <div className='menu-dropdown'>
-          {children}
-        </div>
-      )}
+      {menuOpen && <div className='menu-dropdown'>{children}</div>}
     </div>
   );
 };
