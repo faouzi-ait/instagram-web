@@ -13,7 +13,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
       },
       providesTags: ['Posts', 'Post', 'Search'],
       keepUnusedDataFor: 0,
-      refetchOnMountOrArgChange: true
+      refetchOnMountOrArgChange: true,
     }),
     getSinglePost: builder.query({
       query: (id) => `/single-post/${id}`,

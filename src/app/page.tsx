@@ -27,8 +27,6 @@ export default function Home() {
     page,
   });
 
-  console.log(selector);
-
   useEffect(() => {
     if (data) {
       setPosts((prevPosts) => [...prevPosts, ...data.items]);
