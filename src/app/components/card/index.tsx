@@ -58,14 +58,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, loading }) => {
           {postUser?.data?.user?.firstname} {postUser?.data?.user?.lastname}
         </div>
         <div style={{ marginLeft: 'auto' }}>
-          <KebabMenu />
-          {/* <KebabMenu>
+          <KebabMenu>
             <ul>
               <li onClick={() => console.log('Option 1 clicked')}>Option 1</li>
               <li onClick={() => console.log('Option 2 clicked')}>Option 2</li>
               <li onClick={() => console.log('Option 3 clicked')}>Option 3</li>
             </ul>
-          </KebabMenu> */}
+          </KebabMenu>
         </div>
       </div>
       <div className={styles.imageWrapper}>

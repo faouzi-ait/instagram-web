@@ -1,6 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ReactNode } from 'react';
 
-const KebabMenu = () => {
+interface KebabMenuProp {
+  children: ReactNode;
+}
+
+const KebabMenu = ({ children }: KebabMenuProp) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -29,18 +33,10 @@ const KebabMenu = () => {
   return (
     <div className='kebab-menu-container' ref={menuRef}>
       <button onClick={toggleMenu} className='kebab-button'>
-        &#x22EE; {/* Unicode for vertical ellipsis */}
+        &#x22EE;
       </button>
 
-      {menuOpen && (
-        <div className='menu-dropdown'>
-          <ul>
-            <li onClick={() => console.log('Option 1 clicked')}>Option 1</li>
-            <li onClick={() => console.log('Option 2 clicked')}>Option 2</li>
-            <li onClick={() => console.log('Option 3 clicked')}>Option 3</li>
-          </ul>
-        </div>
-      )}
+      {menuOpen && <div className='menu-dropdown'>{children}</div>}
     </div>
   );
 };
