@@ -1,8 +1,7 @@
 .button {
-  border: none;
-  border-radius: 4px;
   padding: 10px 16px;
-  font-size: 16px;
+  border: none;
+  border-radius: 2px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -15,12 +14,12 @@
 /* Size Variants */
 .small {
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 10px;
 }
 
 .medium {
   padding: 10px 16px;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .large {
@@ -34,15 +33,17 @@
   color: white;
 }
 
-.primary:hover:not(:disabled) {
+.primary:hover {
   background-color: #005bb5;
 }
 
 .secondary {
-  background-color: #bdbdbd;
-  color: black;
+  background-color: var(--background-color2);
+  border: 1px solid var(--background-color2);
+  color: var(--text-color2);
 }
 
-.secondary:hover:not(:disabled) {
-  background-color: #cacaca;
+.secondary:hover {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
