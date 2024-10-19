@@ -6,11 +6,11 @@ import {
   useGetUserPhotoQuery,
   useGetUserQuery,
 } from '../../../redux/apiServices/authApi';
-import {
-  currentUserData,
-  currentUser,
-  loggedInStatus,
-} from '../../../redux/slices/selectors';
+import * as api from '../../../redux/apiServices/postsApi';
+import { currentUser } from '../../../redux/slices/selectors';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Post } from '../../utils/types';
 
@@ -29,13 +29,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, loading }) => {
     day: 'numeric',
   });
 
-  const { isLoggedIn } = useSelector(loggedInStatus);
   const userId = useSelector(currentUser);
-
+  const [deletePost, { isLoading }] = api.useDeletePostMutation();
   const postUser = useGetUserQuery(post?.user);
-  const loggedInUserPhoto = useGetUserPhotoQuery(userId);
 
-  console.log(post);
+  const isLoggedInUserPost = post.user === userId;
 
   return (
     <div className={styles.card}>
@@ -60,9 +58,23 @@ const PostCard: React.FC<PostCardProps> = ({ post, loading }) => {
         <div style={{ marginLeft: 'auto' }}>
           <KebabMenu>
             <ul>
-              <li onClick={() => console.log('Option 1 clicked')}>Option 1</li>
-              <li onClick={() => console.log('Option 2 clicked')}>Option 2</li>
-              <li onClick={() => console.log('Option 3 clicked')}>Option 3</li>
+              {isLoggedInUserPost && (
+                <li
+                  onClick={() => alert('alert')}
+                  style={{ display: 'flex', color: 'red', fontSize: '.9rem' }}
+                >
+                  <span>Delete</span>
+                  <span style={{ marginLeft: 'auto' }}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
+                </li>
+              )}
+              {!isLoggedInUserPost && <li
+                style={{ color: 'red', fontSize: '.9rem' }}
+                onClick={() => console.log('Option 3 clicked')}
+              >
+                Edit not allowed
+              </li>}
             </ul>
           </KebabMenu>
         </div>
