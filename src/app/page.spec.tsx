@@ -5,6 +5,12 @@ import Home from '../app/page';
 
 import { store } from '../redux/store';
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,

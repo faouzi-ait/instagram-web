@@ -1,11 +1,17 @@
 :root {
-  --background-color: #ffffff;
+  --background-color: #f2f2f2;
+  --background-color2: #282828;
+  --element-bg-color: #ffffff;
   --text-color: #000000;
+  --text-color2: #ffffff;
 }
 
 html.dark {
-  --background-color: #000000;
+  --background-color: #282828;
+  --background-color2: #ffffff;
+  --element-bg-color: #000000;
   --text-color: #ffffff;
+  --text-color2: #000000;
 }
 
 body {
@@ -25,4 +31,46 @@ button {
 
 button:hover {
   opacity: 0.9;
+}
+
+/* KEBAB MENU */
+.kebab-menu-container {
+  position: relative;
+}
+
+.kebab-button {
+  font-size: 30px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #000000;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  width: 150px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background-color: white;
+  z-index: 100;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-dropdown li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-dropdown li:hover {
+  background-color: #f0f0f0;
 }

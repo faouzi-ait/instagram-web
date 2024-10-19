@@ -1,10 +1,9 @@
 import { apiSlice } from '../apiBaseService/baseApiQuery';
 
 export const apiPostListing = apiSlice.injectEndpoints({
-  overrideExisting: true,
   endpoints: (builder) => ({
     getPosts: builder.query({
-      query: ({ searchTerm, page, pageSize }) => {
+      query: ({ searchTerm, page, pageSize = 2 }) => {
         const queryParams = new URLSearchParams({
           q: searchTerm,
           page,
@@ -13,7 +12,8 @@ export const apiPostListing = apiSlice.injectEndpoints({
         return `/listing-posts?${queryParams.toString()}`;
       },
       providesTags: ['Posts', 'Post', 'Search'],
-      keepUnusedDataFor: 1,
+      keepUnusedDataFor: 0,
+      refetchOnMountOrArgChange: true,
     }),
     getSinglePost: builder.query({
       query: (id) => `/single-post/${id}`,

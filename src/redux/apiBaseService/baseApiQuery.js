@@ -19,9 +19,8 @@ const baseQuery = fetchBaseQuery({
       return action.payload;
     }
   },
-  prepareHeaders: async (headers) => {
-    // const token = await AsyncStorage.getItem('token');
-    const token = '';
+  prepareHeaders: async (headers, { getState }) => {
+    const token = getState().auth?.accessToken?.token || '';
 
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
@@ -35,23 +34,17 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
   if (result?.error?.status === 401 || result?.error?.status === 403) {
     try {
-      // const refreshToken = await AsyncStorage.getItem('refreshToken');
-      const refreshToken = '';
+      const state = api.getState();
+      const refreshToken = state.auth?.refreshToken || '';
 
       if (refreshToken) {
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/refresh-token`,
-          {
-            refreshToken,
-          }
+          { refreshToken }
         );
 
         if (data) {
-          // Updates the stored token and credentials
           const { token, newRefreshToken, user } = data;
-
-          //   await AsyncStorage.setItem('token', token);
-          //   await AsyncStorage.setItem('refreshToken', newRefreshToken);
 
           api.dispatch(
             setCredentials({

@@ -32,3 +32,8 @@
   gap: 32px;
   grid-row-start: 2;
 }
+
+.card {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
