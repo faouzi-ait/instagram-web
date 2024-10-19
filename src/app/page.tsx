@@ -1,10 +1,16 @@
 'use client';
 
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
 import { RootState } from '@/redux/store';
 import { useGetPostsQuery } from '../redux/apiServices/postsApi';
+import {
+  useGetUserPhotoQuery,
+  useGetUserQuery,
+} from '../redux/apiServices/authApi';
+import { currentUser } from '../redux/slices/selectors';
 
 import PostCard from './components/card';
 import Button from './components/button';
@@ -18,6 +24,8 @@ import { Post } from './utils/types';
 
 export default function Home() {
   const { isLoggedIn } = useSelector((item: RootState) => item.auth);
+  const userId = useSelector(currentUser);
+  const loggedInUserPhoto = useGetUserPhotoQuery(userId);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -54,12 +62,20 @@ export default function Home() {
   return (
     <div>
       <h1>This is the home page</h1>
-
+      {isLoggedIn && (
+        <Image
+          sizes='auto'
+          alt='Post Photo'
+          src={loggedInUserPhoto?.data?.photo}
+          width={50}
+          height={50}
+          style={{ borderRadius: '50%' }}
+        />
+      )}
       <ThemeToggle />
 
       {isLoggedIn && (
         <Button onClick={logout} variant='secondary' size='medium'>
-          {/* <FontAwesomeIcon icon={faArrowsLeftRightToLine} /> <br /> */}{' '}
           logout
         </Button>
       )}
@@ -70,24 +86,25 @@ export default function Home() {
           variant='secondary'
           size='medium'
         >
-          {/* <FontAwesomeIcon icon={faRightToBracket} /> <br /> */}
           login
         </Button>
       )}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{}}>
+          {uniquePosts.map((post: Post) => (
+            <PostCard key={post._id} post={post} loading={isLoading} />
+          ))}
+          <div style={{ textAlign: 'center' }}>
+            {hasMore && (
+              <Button onClick={loadMorePosts} variant='secondary' size='medium'>
+                {!isLoading ? 'Load More' : 'Loading posts...'}
+              </Button>
+            )}
 
-      <div style={{ width: '35%' }}>
-        {uniquePosts.map((post: Post) => (
-          <PostCard key={post._id} post={post} loading={isLoading} />
-        ))}
+            {!hasMore && <p>No more posts to load.</p>}
+          </div>
+        </div>
       </div>
-
-      {hasMore && (
-        <Button onClick={loadMorePosts} variant='secondary' size='medium'>
-          {!isLoading ? 'Load More' : 'Loading posts...'}
-        </Button>
-      )}
-
-      {!hasMore && <p>No more posts to load.</p>}
     </div>
   );
 }
