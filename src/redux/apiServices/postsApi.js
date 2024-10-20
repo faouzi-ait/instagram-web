@@ -12,7 +12,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         return `/listing-posts?${queryParams.toString()}`;
       },
       providesTags: ['Posts', 'Post', 'Search'],
-      keepUnusedDataFor: 0,
+      keepUnusedDataFor: 1,
       refetchOnMountOrArgChange: true,
     }),
     getSinglePost: builder.query({
@@ -25,7 +25,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         url: `/like-post/${id}`,
         method: 'POST',
       }),
-      invalidatesTags: ['Post', 'Search', 'User'],
+      invalidatesTags: (result, error, id) => [{ type: 'Post', id }],
     }),
     createPost: builder.mutation({
       query: (body) => ({
@@ -40,7 +40,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         url: `/delete-posts/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Post', 'Posts', 'User', 'Search'],
+      invalidatesTags: ['Post', 'User', 'Search'],
     }),
     favoritePost: builder.mutation({
       query: (id) => ({

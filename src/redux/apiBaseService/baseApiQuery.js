@@ -20,8 +20,8 @@ const baseQuery = fetchBaseQuery({
     }
   },
   prepareHeaders: async (headers, { getState }) => {
-    const token = getState().auth?.accessToken?.token || '';
-
+    const token = getState().auth?.token?.token || '';
+    // console.log('TOKEN: ', getState().auth.token.token);
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -36,6 +36,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
     try {
       const state = api.getState();
       const refreshToken = state.auth?.refreshToken || '';
+      // console.log('REFRESH TOKEN: ', api.getState());
 
       if (refreshToken) {
         const { data } = await axios.post(
