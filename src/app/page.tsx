@@ -20,8 +20,6 @@ import { setLogout } from '../redux/slices/authSlice';
 import { removeDuplicates } from './utils/functions';
 import { Post } from './utils/types';
 
-// import styles from './page.module.css';
-
 export default function Home() {
   const { isLoggedIn } = useSelector((item: RootState) => item.auth);
   const userId = useSelector(currentUser);
@@ -34,7 +32,7 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const { data, /*error,*/ isLoading /*, refetch*/ } = useGetPostsQuery({
+  const { data, isLoading } = useGetPostsQuery({
     searchTerm: '',
     pageSize: size,
     page,
@@ -58,6 +56,11 @@ export default function Home() {
   };
 
   const uniquePosts = removeDuplicates(posts, '_id');
+
+  // Handle the post deletion
+  const handlePostDeleted = (postId: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+  };
 
   return (
     <div>
@@ -92,7 +95,12 @@ export default function Home() {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{}}>
           {uniquePosts.map((post: Post) => (
-            <PostCard key={post._id} post={post} loading={isLoading} />
+            <PostCard
+              key={post._id}
+              post={post}
+              loading={isLoading}
+              onPostDeleted={handlePostDeleted} // Pass the onPostDeleted prop
+            />
           ))}
           <div style={{ textAlign: 'center' }}>
             {hasMore && (
