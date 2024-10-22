@@ -6,10 +6,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useGetPostsQuery } from '../redux/apiServices/postsApi';
-import {
-  useGetUserPhotoQuery,
-  useGetUserQuery,
-} from '../redux/apiServices/authApi';
+import { useGetUserPhotoQuery } from '../redux/apiServices/authApi';
 import { currentUser } from '../redux/slices/selectors';
 
 import PostCard from './components/card';
@@ -29,7 +26,7 @@ export default function Home() {
 
   const [size] = useState<number>(2);
   const [page, setPage] = useState<number>(1);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [postList, setPostList] = useState<Post[]>([]); // Single state to manage posts
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const { data, isLoading } = useGetPostsQuery({
@@ -40,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      setPosts((prevPosts) => [...prevPosts, ...data.items]);
+      setPostList((prevPosts) => [...prevPosts, ...data.items]);
       if (data.items.length < size) {
         setHasMore(false);
       }
@@ -51,16 +48,27 @@ export default function Home() {
     if (hasMore) setPage((prevPage) => prevPage + 1);
   };
 
+  // When a comment is added, update the postList state correctly
+  const handleCommentAdded = (postId: string, newComment: any) => {
+    setPostList((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === postId
+          ? { ...post, reviews: [...post.reviews, newComment] }
+          : post
+      )
+    );
+  };
+
+  // When a post is deleted, update postList state
+  const handlePostDeleted = (postId: string) => {
+    setPostList((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+  };
+
   const logout = async () => {
     dispatch(setLogout());
   };
 
-  const uniquePosts = removeDuplicates(posts, '_id');
-
-  // Handle the post deletion
-  const handlePostDeleted = (postId: string) => {
-    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-  };
+  const uniquePosts = removeDuplicates(postList, '_id'); // Removing duplicates to avoid issues
 
   return (
     <div>
@@ -92,14 +100,16 @@ export default function Home() {
           login
         </Button>
       )}
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{}}>
           {uniquePosts.map((post: Post) => (
             <PostCard
               key={post._id}
               post={post}
-              loading={isLoading}
-              onPostDeleted={handlePostDeleted} // Pass the onPostDeleted prop
+              loading={false}
+              onPostDeleted={handlePostDeleted}
+              onCommentAdded={handleCommentAdded}
             />
           ))}
           <div style={{ textAlign: 'center' }}>
@@ -108,7 +118,6 @@ export default function Home() {
                 {!isLoading ? 'Load More' : 'Loading posts...'}
               </Button>
             )}
-
             {!hasMore && <p>No more posts to load.</p>}
           </div>
         </div>

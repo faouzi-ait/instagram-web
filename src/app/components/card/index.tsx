@@ -6,96 +6,119 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { RootState } from '@/redux/store';
 
 import KebabMenu from '../../components/kebab-menu';
-import {
-  useDeletePostMutation,
-  useLikePostMutation,
-  useFavoritePostMutation,
-  useUserFavoritePostMutation,
-} from '../../../redux/apiServices/postsApi';
+import PostTextSection from '../comment';
 
-import { useGetUserQuery } from '../../../redux/apiServices/authApi';
-import { currentUser } from '../../../redux/slices/selectors';
+import * as util from '../../../app/utils/functions';
+import * as api from '../../../redux/apiServices/postsApi';
 import {
-  isLiked,
-  isFavorites,
-  hasReview,
-  isOwnerPost,
-} from '../../../app/utils/functions';
+  useGetUserQuery,
+  useGetUserPhotoQuery,
+} from '../../../redux/apiServices/authApi';
+import { currentUser } from '../../../redux/slices/selectors';
 import { Post } from '../../utils/types';
 
 import styles from './page.module.css';
 
 type PostCardProps = {
-  key?: any;
   post: Post;
   loading: boolean;
   onPostDeleted: (id: string) => void;
+  onCommentAdded: (id: string, newComment: any) => void;
 };
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
   loading,
   onPostDeleted,
+  onCommentAdded,
 }) => {
-  // const formattedDate = new Date(post.createdAt).toLocaleDateString('en-US', {
-  //   year: 'numeric',
-  //   month: 'long',
-  //   day: 'numeric',
-  // });
-
-  const { isLoggedIn } = useSelector((item: RootState) => item.auth);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const userId = useSelector(currentUser);
+  const [likePost] = api.useLikePostMutation();
   const postUser = useGetUserQuery(post?.user);
-  const [deletePost] = useDeletePostMutation();
-  const [likePost] = useLikePostMutation();
-  const [favoritePost] = useFavoritePostMutation();
-  const [userFavoritePost] = useUserFavoritePostMutation();
+  const [deletePost] = api.useDeletePostMutation();
+  const [favoritePost] = api.useFavoritePostMutation();
+  const [userFavoritePost] = api.useUserFavoritePostMutation();
+  const [createReview] = api.useCreateReviewMutation();
+  const loggedInUserPhoto = useGetUserPhotoQuery(userId);
 
-  const isPostLiked = isLiked(post, userId);
-  const isOwnPost = isOwnerPost(post, userId);
-  const hasReviewed = hasReview(post, userId);
+  const isPostLiked = util.isLiked(post, userId);
+  const isOwnPost = util.isOwnerPost(post, userId);
+  const hasReviewed = util.hasReview(post, userId);
 
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [liked, setLiked] = useState(isPostLiked);
-
-  const isFavoritedInitialState = isFavorites(post, userId);
+  const [comment, setComment] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const isFavoritedInitialState = util.isFavorites(post, userId);
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitialState);
 
-  const handleDelete = async () => {
+  const postOwnerData = postUser?.data;
+
+  const handleDelete = async (): Promise<void> => {
     try {
-      await deletePost(post._id).unwrap(); // Delete post
-      onPostDeleted(post._id); // Notify parent component to remove the post
-    } catch (error) {
-      console.error('Failed to delete the post: ', error);
+      await deletePost(post._id).unwrap();
+      onPostDeleted(post._id);
+    } catch (error: unknown) {
+      console.error('Failed to delete the post:', error);
     }
   };
 
-  const handleLike = async () => {
-    console.log(post._id);
+  const handleLike = async (): Promise<void> => {
     if (!isLoggedIn) return alert('You must be logged in to like a post');
 
-    setLiked((prev) => !prev);
-    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+    setLiked((prevLiked) => !prevLiked);
+    setLikeCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
 
     try {
       await likePost(post._id).unwrap();
     } catch (error) {
       console.error('Failed to like the post:', error);
+      // Revert state in case of an error
       setLiked(isPostLiked);
       setLikeCount(post.likes.length);
     }
   };
 
-  const handleFavorite = async () => {
+  const handleFavorite = async (): Promise<void> => {
     if (!isLoggedIn) return alert('You must be logged in to favorite a post');
-    setIsFavorited((prev) => !prev); // Toggle favorite state locally
+
+    setIsFavorited((prevFavorited) => !prevFavorited); // Toggle favorite state locally
 
     try {
       await favoritePost(post._id).unwrap();
       await userFavoritePost(post._id).unwrap();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to favorite the post:', error);
-      setIsFavorited(isFavorited); // To restore the original state
+      setIsFavorited(isFavorited); // Restore state in case of error
+    }
+  };
+
+  const sendComment = async (id: string) => {
+    if (!comment) return alert('Please type in a comment');
+
+    const newReview = {
+      comment: comment,
+      user: userId,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      const dd = await createReview({
+        rating: 0,
+        postID: id,
+        comment,
+      }).unwrap();
+      setComment('');
+      onCommentAdded(id, newReview);
+
+      setConfirmMessage(dd.message);
+
+      setTimeout(() => {
+        setConfirmMessage('');
+      }, 2000);
+    } catch (error: unknown) {
+      console.error('Failed to create review:', error);
     }
   };
 
@@ -105,43 +128,30 @@ const PostCard: React.FC<PostCardProps> = ({
         <Image
           sizes='auto'
           alt='User Photo'
-          src={postUser?.data?.user?.photo}
+          src={postOwnerData?.user?.photo}
           width={50}
           height={50}
           style={{ borderRadius: '50%' }}
         />
-        <div
-          style={{
-            marginLeft: '1rem',
-            fontWeight: 'bold',
-            fontFamily: 'Arial',
-          }}
-        >
-          {postUser?.data?.user?.firstname} {postUser?.data?.user?.lastname}
+        <div className={styles.name}>
+          {postOwnerData?.user?.firstname} {postOwnerData?.user?.lastname}
         </div>
-        <div style={{ marginLeft: 'auto' }}>
-          <KebabMenu>
-            <ul>
-              {isOwnPost && (
+        {isOwnPost && (
+          <div className={styles.flexMargin}>
+            <KebabMenu>
+              <ul>
                 <li onClick={handleDelete} className={styles.delete}>
                   <span>Delete</span>
-                  <span style={{ marginLeft: 'auto' }}>
+                  <span className={styles.flexMargin}>
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
                 </li>
-              )}
-              {!isOwnPost && (
-                <li
-                  style={{ color: 'red', fontSize: '.9rem' }}
-                  onClick={() => console.log('Edit not allowed')}
-                >
-                  Edit not allowed
-                </li>
-              )}
-            </ul>
-          </KebabMenu>
-        </div>
+              </ul>
+            </KebabMenu>
+          </div>
+        )}
       </div>
+
       <div className={styles.imageWrapper}>
         {!loading ? (
           <Image sizes='auto' alt='Post Image' src={post.photo} priority fill />
@@ -151,6 +161,7 @@ const PostCard: React.FC<PostCardProps> = ({
           </div>
         )}
       </div>
+
       <div className={styles.content}>
         <div className={styles.icons}>
           <img
@@ -173,20 +184,42 @@ const PostCard: React.FC<PostCardProps> = ({
             alt='bookmark'
             width='24'
             height='24'
-            style={{ marginLeft: 'auto' }}
+            className={styles.flexMargin}
             onClick={handleFavorite}
           />
         </div>
       </div>
-      <div className={styles.postTextSection}>
-        {likeCount} like{`${likeCount > 1 ? 's' : ''}`}
-        <div className={styles.postText}>{post.post}</div>
-        <div className={styles.postText}>
-          {post.totalReviews === 0
-            ? 'No comments yet!'
-            : `${post.totalReviews} comments`}
+
+      <PostTextSection post={post} likeCount={likeCount} />
+
+      {!util.hasReview(post, userId) && isLoggedIn && (
+        <div className={styles.postTextSection}>
+          <Image
+            sizes='auto'
+            alt='User Photo'
+            src={loggedInUserPhoto?.data?.photo}
+            width={30}
+            height={30}
+            style={{ borderRadius: '50%' }}
+          />
+          <input
+            placeholder='Comment'
+            onChange={(e) => setComment(e.target.value)}
+            value={comment}
+            style={{ margin: '0 0 0 .75rem', padding: '2px' }}
+          />
+          <button
+            type='button'
+            onClick={() => sendComment(post._id)}
+            style={{ backgroundColor: 'black', color: 'white' }}
+          >
+            Comment
+          </button>
+          <span style={{ marginLeft: '.5rem', color: 'green' }}>
+            {confirmMessage}
+          </span>
         </div>
-      </div>
+      )}
     </div>
   );
 };
