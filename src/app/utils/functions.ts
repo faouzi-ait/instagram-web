@@ -20,3 +20,10 @@ export const isFavorites = (post: Post, userId: string) =>
   post?.favorites?.includes(userId);
 export const hasReview = (post: Post, userId: string) =>
   post?.reviews?.some((el) => el.user === userId);
+
+export const formattedDate = (post: Post) =>
+  new Date(post.createdAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
