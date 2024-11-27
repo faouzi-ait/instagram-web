@@ -74,7 +74,7 @@ export default function Home() {
   const uniquePosts = removeDuplicates(postList, '_id');
 
   return (
-    <div>
+    <>
       <Header>
         <>
           {isLoggedIn && (
@@ -114,7 +114,7 @@ export default function Home() {
           </div>
         </>
       </Header>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={styles.mainContentLayout}>
         <div style={{}}>
           {uniquePosts.map((post: Post) => (
             <PostCard
@@ -135,6 +135,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

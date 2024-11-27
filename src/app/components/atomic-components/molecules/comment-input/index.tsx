@@ -8,7 +8,6 @@ import styles from './comment.module.css';
 interface CommentInputFieldProps {
   userPhoto: string;
   comment: string;
-
   // eslint-disable-next-line no-unused-vars
   onCommentChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmitComment: () => void;

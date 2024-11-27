@@ -7,7 +7,7 @@ interface UserProfileProps {
   name: string;
   alt: string;
   avatarSize?: 'xsmall' | 'small' | 'medium' | 'large';
-  labelSize?: 'xsmall' | 'small' | 'medium' | 'large';
+  labelSize?: 'small' | 'medium' | 'large';
   style?: React.CSSProperties;
   className?: string;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface AvatarProps {
   src: string;
@@ -23,11 +24,12 @@ const Avatar: React.FC<AvatarProps> = ({
   const dimension = sizeMap[size];
 
   return (
-    <img
-      src={src}
-      alt={alt}
+    <Image
       width={dimension}
       height={dimension}
+      alt={alt}
+      src={src}
+      priority
       style={{
         borderRadius: '50%',
         ...style,

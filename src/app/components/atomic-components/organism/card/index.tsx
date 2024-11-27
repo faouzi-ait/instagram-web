@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
+import Icon from '../../atoms/icons';
 import PostTextSection from '../comment';
 import MenuItem from '../../atoms/menu-item';
 import MenuList from '../../atoms/menu-list';
@@ -166,28 +167,17 @@ const PostCard: React.FC<PostCardProps> = ({
 
       <div className={styles.content}>
         <div className={styles.icons}>
-          <img
-            src={`/icons/heart-${liked ? 'solid' : 'regular'}.svg`}
-            alt='heart'
-            width='24'
-            height='24'
+          <Icon
+            size={24}
+            name={`heart${liked ? 'Full' : 'Empty'}`}
             onClick={handleLike}
           />
-          <img
-            src={`/icons/comment-${hasReviewed ? 'solid' : 'regular'}.svg`}
-            alt='comment'
-            width='24'
-            height='24'
-            style={{ marginLeft: '.5rem' }}
-            // onClick={() => console.log('comment', userId)}
-          />
-          <img
-            src={`/icons/bookmark-${isFavorited ? 'solid' : 'regular'}.svg`}
-            alt='bookmark'
-            width='24'
-            height='24'
-            className={styles.flexMargin}
+          <Icon name={`comment${hasReviewed ? 'Full' : 'Empty'}`} size={24} />
+          <Icon
+            name={`bookmark${isFavorited ? 'Full' : 'Empty'}`}
+            size={24}
             onClick={handleFavorite}
+            className={styles.flexMargin}
           />
         </div>
       </div>
