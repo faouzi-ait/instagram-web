@@ -19,11 +19,17 @@ export interface Review {
   rating: number;
   user: string;
   username: string;
-  _id: string;
+  _id?: string;
+}
+
+export interface ReviewDisplayProps {
+  userId: string;
+  username: string;
+  comment: string;
 }
 
 export interface AuthState {
-  user: object | null;
+  user: any;
   token: string | null;
   isLoggedIn: boolean;
 }

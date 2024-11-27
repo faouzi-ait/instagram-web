@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store, persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -11,6 +12,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    // Create the modal-root element
+    const modalRoot = document.createElement('div');
+    modalRoot.setAttribute('id', 'modal-root');
+    document.body.appendChild(modalRoot);
+
+    // Cleanup function
+    return () => {
+      const existingModalRoot = document.getElementById('modal-root');
+      // Check if modal-root exists in the DOM before trying to remove it
+      if (existingModalRoot) {
+        document.body.removeChild(existingModalRoot);
+      }
+    };
+  }, []);
+
   return (
     <html lang='en'>
       <body>

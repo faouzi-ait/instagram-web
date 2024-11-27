@@ -11,7 +11,15 @@ export const apiPostListing = apiSlice.injectEndpoints({
         });
         return `/listing-posts?${queryParams.toString()}`;
       },
-      providesTags: ['Posts', 'Post', 'Search'],
+      /* eslint-disable */
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.items.map(({ _id }) => ({ type: 'Post', id: _id })),
+              'Posts',
+            ]
+          : ['Posts'],
+      /* eslint-disable */
       keepUnusedDataFor: 1,
       refetchOnMountOrArgChange: true,
     }),
@@ -25,7 +33,10 @@ export const apiPostListing = apiSlice.injectEndpoints({
         url: `/like-post/${id}`,
         method: 'POST',
       }),
-      invalidatesTags: (result, error, id) => [{ type: 'Post', id }],
+      invalidatesTags: (result, error, { postID }) => [
+        { type: 'Posts', id: postID },
+        'Posts',
+      ],
     }),
     createPost: builder.mutation({
       query: (body) => ({
@@ -33,14 +44,20 @@ export const apiPostListing = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Post', 'Search', 'User'],
+      invalidatesTags: (result, error, { postID }) => [
+        { type: 'Posts', id: postID },
+        'Posts',
+      ],
     }),
     deletePost: builder.mutation({
       query: (id) => ({
         url: `/delete-posts/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Post', 'User', 'Search'],
+      invalidatesTags: (result, error, { postID }) => [
+        { type: 'Posts', id: postID },
+        'Posts',
+      ],
     }),
     favoritePost: builder.mutation({
       query: (id) => ({
@@ -55,7 +72,10 @@ export const apiPostListing = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['Post', 'Search'],
+      invalidatesTags: (result, error, { postID }) => [
+        { type: 'Posts', id: postID },
+        'Posts',
+      ],
     }),
     userFavoritePost: builder.mutation({
       query: (id) => ({

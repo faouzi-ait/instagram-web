@@ -1,0 +1,23 @@
+.postText {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  color: black;
+  font-weight: bold;
+  margin: 0.25rem 0 0 0;
+}
+
+.postTextSection {
+  margin-top: -1rem;
+  padding: 0.75rem;
+  font-family: Arial;
+  font-size: 0.85rem;
+  color: black;
+  background: white;
+  z-index: 100;
+}
+
+.lowerPostText {
+  display: flex;
+  justify-content: space-between;
+  color: black;
+}

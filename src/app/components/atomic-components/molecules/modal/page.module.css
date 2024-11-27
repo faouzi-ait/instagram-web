@@ -1,0 +1,26 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000;
+}
+
+.modal {
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+  border-radius: 5px;
+  background: white;
+}
+
+.closeButton {
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
