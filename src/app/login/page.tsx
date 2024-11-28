@@ -3,7 +3,7 @@
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
-import PublicRoute from '../components/protected-route/PublicRoute';
+import PublicRoute from '../components/route-protection/PublicRoute';
 
 import { useLoginMutation } from '../../redux/apiServices/authApi';
 import { setCredentials } from '../../redux/slices/authSlice';
@@ -15,7 +15,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [login, { data, error, isLoading }] = useLoginMutation();
+  const [login /*, { data, error, isLoading }*/] = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ export default function LoginPage() {
       dispatch(setCredentials({ user, accessToken: { token, refreshToken } }));
       router.push('/');
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 

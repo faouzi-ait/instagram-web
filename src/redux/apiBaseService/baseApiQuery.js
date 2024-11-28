@@ -60,7 +60,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       api.dispatch(setLogout()); // If refreshing failed or no refresh token is available, logout
       return result;
     } catch (error) {
-      console.error('Error refreshing token:', error);
+      // console.error('Error refreshing token:', error);
       api.dispatch(setLogout());
       return result;
     }

@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTheme } from '../../redux/slices/themeSlice';
 import { AppDispatch } from '@/redux/store';
-import Button from './button';
+import Button from '../../../atomic-components/atoms/button';
+import { setTheme } from '../../../../../redux/slices/themeSlice';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
@@ -32,12 +32,8 @@ const ThemeToggle = () => {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
-  <div>
-    <FontAwesomeIcon icon={faMoon} />
-  </div>;
-
   return (
-    <Button onClick={toggleTheme} variant='secondary' size='medium'>
+    <Button onClick={toggleTheme} variant='secondary' size='large'>
       <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
     </Button>
   );

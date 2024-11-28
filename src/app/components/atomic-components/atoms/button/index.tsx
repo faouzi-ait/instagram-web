@@ -9,23 +9,26 @@ type ButtonProps = {
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   isLoading?: boolean;
+  style?: React.CSSProperties;
 };
 
 const Button: React.FC<ButtonProps> = ({
   children,
   type = 'button',
-  onClick,
   variant = 'primary',
   size = 'medium',
   disabled = false,
   isLoading = false,
+  onClick,
+  style,
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${styles.button} ${styles[variant]} ${styles[size]}`}
+      className={`${styles.button} ${styles[variant]} ${styles[size]} `}
       disabled={disabled || isLoading}
+      style={style}
     >
       {isLoading ? 'Loading...' : children}
     </button>
