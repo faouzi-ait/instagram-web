@@ -13,15 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    // Create the modal-root element
     const modalRoot = document.createElement('div');
     modalRoot.setAttribute('id', 'modal-root');
     document.body.appendChild(modalRoot);
 
-    // Cleanup function
     return () => {
       const existingModalRoot = document.getElementById('modal-root');
-      // Check if modal-root exists in the DOM before trying to remove it
       if (existingModalRoot) {
         document.body.removeChild(existingModalRoot);
       }

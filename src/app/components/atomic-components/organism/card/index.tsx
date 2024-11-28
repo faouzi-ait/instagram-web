@@ -10,8 +10,6 @@ import UserProfile from '../../molecules/user-info';
 import CommentInput from '../../molecules/comment-input';
 
 import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { RootState } from '@/redux/store';
 
 import * as util from '../../../../utils/functions';
@@ -59,7 +57,6 @@ const PostCard: React.FC<PostCardProps> = ({
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [liked, setLiked] = useState(isPostLiked);
   const [comment, setComment] = useState('');
-  // const [confirmMessage, setConfirmMessage] = useState('');
   const isFavoritedInitialState = util.isFavorites(post, userId);
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitialState);
 
@@ -122,8 +119,6 @@ const PostCard: React.FC<PostCardProps> = ({
       }).unwrap();
       setComment('');
       onCommentAdded(id, newReview);
-
-      // setConfirmMessage(dd.message);
     } catch (error: any) {
       return error;
       // console.error('Failed to create review:', error);
@@ -142,7 +137,7 @@ const PostCard: React.FC<PostCardProps> = ({
           className={styles.userProfileLayout}
         />
         {isOwnPost && (
-          <div className={styles.flexMargin}>
+          <div className={styles.rightAlignment}>
             <KebabMenu>
               <MenuList onClick={() => null}>
                 <MenuItem
@@ -151,9 +146,11 @@ const PostCard: React.FC<PostCardProps> = ({
                   className={styles.delete}
                 >
                   <span>Delete</span>
-                  <span className={styles.flexMargin}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </span>
+                  <Icon
+                    name='trash'
+                    size={18}
+                    className={styles.rightAlignment}
+                  />
                 </MenuItem>
               </MenuList>
             </KebabMenu>
@@ -171,7 +168,7 @@ const PostCard: React.FC<PostCardProps> = ({
           <Icon name={util.iconDisplay('comment', hasReviewed)} size={24} />
           <Icon
             name={util.iconDisplay('bookmark', isFavorited)}
-            className={styles.flexMargin}
+            className={styles.rightAlignment}
             onClick={handleFavorite}
           />
         </div>
