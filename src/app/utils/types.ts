@@ -29,7 +29,7 @@ export interface ReviewDisplayProps {
 }
 
 export interface AuthState {
-  user: object | null;
+  user: any;
   token: string | null;
   isLoggedIn: boolean;
 }
