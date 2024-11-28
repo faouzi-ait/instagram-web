@@ -31,7 +31,7 @@ export default function Home() {
 
   const [size] = useState<number>(3);
   const [page, setPage] = useState<number>(1);
-  const [postList, setPostList] = useState<Post[]>([]);
+  const [postList, setPostList] = useState<Post[]>([]); // Single state to manage posts
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const { data, isLoading } = useGetPostsQuery({
@@ -53,6 +53,7 @@ export default function Home() {
     if (hasMore) setPage((prevPage) => prevPage + 1);
   };
 
+  // When a comment is added, update the postList state correctly
   const handleCommentAdded = (postId: string, newComment: any) => {
     setPostList((prevPosts) =>
       prevPosts.map((post) =>
@@ -63,6 +64,7 @@ export default function Home() {
     );
   };
 
+  // When a post is deleted, update postList state
   const handlePostDeleted = (postId: string) => {
     setPostList((prevPosts) => prevPosts.filter((post) => post._id !== postId));
   };
