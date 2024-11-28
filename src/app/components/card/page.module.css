@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
-  width: 575px;
-  height: 775px;
+  width: 500px;
+  height: 800px;
   overflow: hidden;
 }
 
@@ -33,32 +33,42 @@
   background-color: #ffffff;
 }
 
-.postText {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.85rem;
-  font-weight: bold;
-  margin: 0.25rem 0 0 0;
-}
-
-.postTextSection {
-  margin-top: -1rem;
-  padding: 0.75rem;
-  font-family: Arial;
-  font-size: 0.85rem;
-  background: white;
-  z-index: 100;
-}
-
 .icons {
   display: flex;
   width: 100%;
   z-index: 200;
 }
 
+.name {
+  margin-left: 1rem;
+  font-weight: bold;
+  font-family: Arial;
+}
+
+.kebabOption {
+  color: red;
+  font-size: 0.9rem;
+}
+
 .delete {
   color: red;
   display: flex;
   font-size: 0.85rem;
+}
+
+.flexMargin {
+  margin-left: auto;
+}
+
+.postTextSection {
+  margin-top: -0.8rem;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  font-family: Arial;
+  font-size: 0.85rem;
+  background: white;
+  z-index: 100;
 }
 
 .date {
