@@ -5,7 +5,7 @@ export type IconKey = keyof typeof iconMap;
 
 export interface IconProps {
   name: IconKey;
-  size: number;
+  size?: number;
   color?: string;
   style?: CSSProperties;
   className?: string;

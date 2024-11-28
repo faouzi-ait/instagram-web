@@ -167,17 +167,12 @@ const PostCard: React.FC<PostCardProps> = ({
 
       <div className={styles.content}>
         <div className={styles.icons}>
+          <Icon name={util.iconDisplay('heart', liked)} onClick={handleLike} />
+          <Icon name={util.iconDisplay('comment', hasReviewed)} size={24} />
           <Icon
-            size={24}
-            name={`heart${liked ? 'Full' : 'Empty'}`}
-            onClick={handleLike}
-          />
-          <Icon name={`comment${hasReviewed ? 'Full' : 'Empty'}`} size={24} />
-          <Icon
-            name={`bookmark${isFavorited ? 'Full' : 'Empty'}`}
-            size={24}
-            onClick={handleFavorite}
+            name={util.iconDisplay('bookmark', isFavorited)}
             className={styles.flexMargin}
+            onClick={handleFavorite}
           />
         </div>
       </div>
@@ -187,10 +182,10 @@ const PostCard: React.FC<PostCardProps> = ({
       {!util.hasReview(post, userId) && isLoggedIn && (
         <div className={styles.postTextSection}>
           <CommentInput
-            userPhoto={loggedInUserPhoto?.data?.photo}
             comment={comment}
-            onCommentChange={(e) => setComment(e.target.value)}
+            userPhoto={loggedInUserPhoto?.data?.photo}
             onSubmitComment={() => sendComment(post._id)}
+            onCommentChange={(e) => setComment(e.target.value)}
           />
         </div>
       )}

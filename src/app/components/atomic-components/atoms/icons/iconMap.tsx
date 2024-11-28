@@ -5,6 +5,7 @@ const iconMap = {
   commentEmpty: 'comment-empty',
   heartEmpty: 'heart-empty',
   heartFull: 'heart-full',
+  sun: 'sun',
 };
 
 export default iconMap;

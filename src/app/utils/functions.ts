@@ -27,3 +27,8 @@ export const formattedDate = (post: Post) =>
     month: 'long',
     day: 'numeric',
   });
+
+export const iconDisplay = (iconPrefix: string, condition: boolean): any => {
+  const suffix = condition ? 'Full' : 'Empty';
+  return iconPrefix + suffix;
+};
