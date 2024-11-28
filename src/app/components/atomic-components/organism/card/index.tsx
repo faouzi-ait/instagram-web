@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React, { Suspense, useState } from 'react';
 
 import Icon from '../../atoms/icons';

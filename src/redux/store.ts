@@ -14,10 +14,13 @@ export const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
-const persistedReducer = persistReducer({
-  key: 'root',
-  storage,
-}, rootReducer);
+const persistedReducer = persistReducer(
+  {
+    key: 'root',
+    storage,
+  },
+  rootReducer
+);
 
 export const store = configureStore({
   reducer: persistedReducer,

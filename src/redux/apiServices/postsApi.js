@@ -73,7 +73,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
     }),
   }),
   onError: (error /*, { dispatch, getState }*/) => {
-    console.error('Global error handler:', error);
+    // console.error('Global error handler:', error);
   },
 });
 
