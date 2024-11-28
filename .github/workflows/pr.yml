@@ -2,8 +2,8 @@ name: Pipeline - Pull Request Workflow
 
 on:
   push:
-    branches-ignore: # Trigger the workflow for pushes to any branch except 'main'
-      - main
+    # branches-ignore: # Trigger the workflow for pushes to any branch except 'main'
+    #   - main
 
 jobs:
   lint_and_tests:
