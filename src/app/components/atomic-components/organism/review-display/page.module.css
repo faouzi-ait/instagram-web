@@ -1,0 +1,19 @@
+.displayLayout {
+  margin-top: 1rem;
+  color: black;
+}
+
+.contentFormat {
+  display: flex;
+  align-items: center;
+}
+
+.comment {
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.userProfileLayout {
+  display: flex;
+  align-items: center;
+}

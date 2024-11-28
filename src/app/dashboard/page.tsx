@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import ProtectedRoute from '../components/protected-route/ProtectedRoute';
+import React from 'react';
+import ProtectedRoute from '../components/route-protection/ProtectedRoute';
 
 export default function Dashboard() {
   return (

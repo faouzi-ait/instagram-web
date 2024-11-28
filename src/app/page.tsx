@@ -1,30 +1,35 @@
 'use client';
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useRouter } from 'next/navigation';
+
+import PostCard from './components/atomic-components/organism/card';
+import Button from './components/atomic-components/atoms/button';
+import Header from './components/atomic-components/atoms/header';
+import ThemeToggle from './components/atomic-components/molecules/toggle-theme';
+
 import { useGetPostsQuery } from '../redux/apiServices/postsApi';
 import { useGetUserPhotoQuery } from '../redux/apiServices/authApi';
 import { currentUser } from '../redux/slices/selectors';
 
-import PostCard from './components/card';
-import Button from './components/button';
-import ThemeToggle from './components/ThemeToggle';
-
 import { setLogout } from '../redux/slices/authSlice';
 import { removeDuplicates } from './utils/functions';
+
 import { Post } from './utils/types';
+import UserProfile from './components/atomic-components/molecules/user-info';
+
+import styles from './page.module.css';
 
 export default function Home() {
-  const { isLoggedIn } = useSelector((item: RootState) => item.auth);
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector((item: RootState) => item.auth);
   const userId = useSelector(currentUser);
   const loggedInUserPhoto = useGetUserPhotoQuery(userId);
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const [size] = useState<number>(2);
+  const [size] = useState<number>(3);
   const [page, setPage] = useState<number>(1);
   const [postList, setPostList] = useState<Post[]>([]); // Single state to manage posts
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -68,40 +73,50 @@ export default function Home() {
     dispatch(setLogout());
   };
 
-  const uniquePosts = removeDuplicates(postList, '_id'); // Removing duplicates to avoid issues
+  const uniquePosts = removeDuplicates(postList, '_id');
 
   return (
-    <div>
-      <h1>This is the home page</h1>
-      {isLoggedIn && (
-        <Image
-          sizes='auto'
-          alt='Post Photo'
-          src={loggedInUserPhoto?.data?.photo}
-          width={50}
-          height={50}
-          style={{ borderRadius: '50%' }}
-        />
-      )}
-      <ThemeToggle />
+    <>
+      <Header>
+        <>
+          {isLoggedIn && (
+            <UserProfile
+              photo={loggedInUserPhoto?.data?.photo}
+              name={`${user.firstname} ${user.lastname}`}
+              alt="User's Profile Photo"
+              avatarSize='medium'
+              labelSize='medium'
+              className={styles.userProfileLayout}
+            />
+          )}
 
-      {isLoggedIn && (
-        <Button onClick={logout} variant='secondary' size='medium'>
-          logout
-        </Button>
-      )}
+          <div style={{ marginLeft: 'auto' }}>
+            <ThemeToggle />
+            {isLoggedIn && (
+              <Button
+                onClick={logout}
+                variant='secondary'
+                size='large'
+                style={{ marginLeft: '5px' }}
+              >
+                logout
+              </Button>
+            )}
 
-      {!isLoggedIn && (
-        <Button
-          onClick={() => router.push('/login')}
-          variant='secondary'
-          size='medium'
-        >
-          login
-        </Button>
-      )}
-
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+            {!isLoggedIn && (
+              <Button
+                onClick={() => router.push('/login')}
+                variant='secondary'
+                size='large'
+                style={{ marginLeft: '5px' }}
+              >
+                login
+              </Button>
+            )}
+          </div>
+        </>
+      </Header>
+      <div className={styles.mainContentLayout}>
         <div style={{}}>
           {uniquePosts.map((post: Post) => (
             <PostCard
@@ -122,6 +137,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
