@@ -7,6 +7,7 @@ import MenuList from '../../atoms/menu-list';
 import KebabMenu from '../../molecules/kebab-menu';
 import UserProfile from '../../molecules/user-info';
 import CommentInput from '../../molecules/comment-input';
+import ImageWithLoader from '../../atoms/image-with-loader';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -23,8 +24,6 @@ import { Post } from '../../../../utils/types';
 
 import styles from './page.module.css';
 
-const LazyImage = React.lazy(() => import('next/image'));
-
 type PostCardProps = {
   post: Post;
   loading: boolean;
@@ -34,11 +33,6 @@ type PostCardProps = {
   // eslint-disable-next-line no-unused-vars
   onCommentAdded: (id: string, newComment: any) => void;
 };
-
-interface PostImageProps {
-  photo: string;
-  alt: string;
-}
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
@@ -131,18 +125,6 @@ const PostCard: React.FC<PostCardProps> = ({
     }
   };
 
-  const PostImage: React.FC<PostImageProps> = ({ photo, alt }) => {
-    return (
-      <div className={styles.imageWrapper}>
-        <div className={styles.loaderContainer}>
-          <Suspense fallback={<div className={styles.loader}></div>}>
-            <LazyImage sizes='auto' alt={alt} src={photo} priority fill />
-          </Suspense>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className={styles.card}>
       <div className={styles.topContent}>
@@ -176,7 +158,13 @@ const PostCard: React.FC<PostCardProps> = ({
         )}
       </div>
 
-      <PostImage photo={post.photo} alt='Post Image' />
+      <ImageWithLoader
+        src={post.photo}
+        alt='Post Image'
+        sizes='auto'
+        priority
+        fill
+      />
 
       <div className={styles.content}>
         <div className={styles.icons}>
