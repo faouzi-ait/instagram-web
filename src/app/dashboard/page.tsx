@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import ProtectedRoute from '../components/route-protection/ProtectedRoute';
+import AuthGuard from '../components/route-protection/AuthGuard';
 
 export default function Dashboard() {
   return (
-    <ProtectedRoute>
+    <AuthGuard condition="notLoggedIn" redirectTo="/login">
       <div style={{ textAlign: 'center', marginTop: '50px' }}>DASHBOARD</div>
-    </ProtectedRoute>
+    </AuthGuard>
   );
 }
