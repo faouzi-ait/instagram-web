@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 
 import Icon from '../../atoms/icons';
 import PostTextSection from '../comment';

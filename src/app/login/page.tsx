@@ -3,7 +3,7 @@
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
-import PublicRoute from '../components/route-protection/PublicRoute';
+import AuthGuard from '../components/route-protection/AuthGuard';
 
 import { useLoginMutation } from '../../redux/apiServices/authApi';
 import { setCredentials } from '../../redux/slices/authSlice';
@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
 
   return (
-    <PublicRoute>
+    <AuthGuard condition='loggedIn' redirectTo='/'>
       <div style={{ textAlign: 'center', marginTop: '50px' }}>
         <h1>Login Page</h1>
         <form
@@ -77,6 +77,6 @@ export default function LoginPage() {
           Back to Home
         </a>
       </div>
-    </PublicRoute>
+    </AuthGuard>
   );
 }

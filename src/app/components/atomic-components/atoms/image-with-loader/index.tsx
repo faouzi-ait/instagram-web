@@ -25,7 +25,13 @@ const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
     <div className={`${styles.imageWrapper} ${className || ''}`}>
       <div className={styles.loaderContainer}>
         <Suspense fallback={<div className={styles.loader}></div>}>
-          <LazyImage sizes={sizes} alt={alt} src={src} priority={priority} fill={fill} />
+          <LazyImage
+            sizes={sizes}
+            alt={alt}
+            src={src}
+            priority={priority}
+            fill={fill}
+          />
         </Suspense>
       </div>
     </div>
