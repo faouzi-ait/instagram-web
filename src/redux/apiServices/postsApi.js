@@ -72,7 +72,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
       invalidatesTags: ['Post', 'Search'],
     }),
   }),
-  onError: (error /*, { dispatch, getState }*/) => {
+  onError: (/* error , { dispatch, getState }*/) => {
     // console.error('Global error handler:', error);
   },
 });

@@ -12,7 +12,11 @@ interface AuthGuardProps {
   children: React.ReactNode;
 }
 
-const AuthGuard: React.FC<AuthGuardProps> = ({ redirectTo, condition, children }) => {
+const AuthGuard: React.FC<AuthGuardProps> = ({
+  redirectTo,
+  condition,
+  children,
+}) => {
   const router = useRouter();
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
@@ -27,7 +31,8 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ redirectTo, condition, children }
   }, [isLoggedIn, router, redirectTo, condition]);
 
   const shouldRender =
-    (condition === 'loggedIn' && !isLoggedIn) || (condition === 'notLoggedIn' && isLoggedIn);
+    (condition === 'loggedIn' && !isLoggedIn) ||
+    (condition === 'notLoggedIn' && isLoggedIn);
 
   if (!shouldRender) return null;
 
