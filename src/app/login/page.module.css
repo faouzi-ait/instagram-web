@@ -1,36 +1,36 @@
-.pageLayout { 
-    margin: 0 auto;
-    max-width: 50% !important;
-    margin-top: 50px;
-    padding: 30px 0;
-    text-align: center; 
-    background: white;
-    border: 3px solid black;
+.pageLayout {
+  margin: 0 auto;
+  max-width: 50% !important;
+  margin-top: 50px;
+  padding: 30px 0;
+  text-align: center;
+  background: white;
+  border: 3px solid black;
 }
 
 .title {
-    font-family: "Pacifico", cursive;
-    font-size: 40px;
-    font-weight: bold;
-    margin: 0;
-    margin-bottom: 1rem;
-    color: black;
-  }
-
-.formLayout { 
-    max-width: 45% !important;
-    margin: auto !important;
+  font-family: 'Pacifico', cursive;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 1rem;
+  color: black;
 }
 
-.inputStyle { 
-    display: inline-block;
-    width: 80% !important; 
-    margin-bottom: 20px !important;
-    padding: 10px !important; 
+.formLayout {
+  max-width: 45% !important;
+  margin: auto !important;
 }
 
-.submit { 
-    color: white;
-    background-color: black; 
-    margin-bottom: 1rem;
+.inputStyle {
+  display: inline-block;
+  width: 80% !important;
+  margin-bottom: 20px !important;
+  padding: 10px !important;
+}
+
+.submit {
+  color: white;
+  background-color: black;
+  margin-bottom: 1rem;
 }

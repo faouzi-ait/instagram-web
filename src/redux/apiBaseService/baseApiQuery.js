@@ -35,7 +35,6 @@ const baseQuery = fetchBaseQuery({
   },
   prepareHeaders: async (headers, { getState }) => {
     const token = getState().auth?.token?.token || '';
-    console.log('TOKEN: ', getState().auth.token);
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -48,19 +47,15 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
   const token = state.auth?.token?.token || '';
   const refreshToken = state.auth?.token?.refreshToken || '';
 
-  console.log('CHECKING IF TOKEN IS EXPIRED...');
   if (token && isTokenExpired(token)) {
-    console.log('TOKEN HAS EXPIRED..');
     try {
       if (refreshToken) {
-        console.log('GETTING NEW TOKEN USING REFRESH TOKEN...');
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/refresh-token`,
           { refreshToken }
-          );
-          
-          if (data) {
-          console.log('DISPATCH TOKENS IN STORE...');
+        );
+
+        if (data) {
           const { token: newToken, newRefreshToken, user } = data;
           api.dispatch(
             setCredentials({
@@ -74,15 +69,10 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
         return { error: { status: 401, data: 'Refresh token missing' } };
       }
     } catch (error) {
-      console.error('Token refresh failed', error);
       api.dispatch(setLogout());
-      // REDIRECT TO HOME PAGE AFTER LOGOUT
       return { error: { status: 401, data: 'Token refresh failed' } };
     }
   }
-  
-  // Proceed with the original request
-  console.log('PROCESS WITH ORIGINAL REQUEST...');
   return baseQuery(args, api, extraOptions);
 };
 
