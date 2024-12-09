@@ -13,7 +13,6 @@ const isTokenExpired = (token) => {
     const now = Math.floor(Date.now() / 1000); // Current time in seconds
     return decoded.exp < now; // Check if the token has expired
   } catch (error) {
-    console.error('Invalid token format', error);
     return true; // Treat invalid tokens as expired
   }
 };
