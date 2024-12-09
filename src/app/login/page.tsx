@@ -1,14 +1,17 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
+import InputField from '../components/atomic-components/atoms/input';
+import Button from '../components/atomic-components/atoms/button';
 import AuthGuard from '../components/route-protection/AuthGuard';
 
 import { useLoginMutation } from '../../redux/apiServices/authApi';
 import { setCredentials } from '../../redux/slices/authSlice';
 
-import React, { useState } from 'react';
+import styles from './page.module.css';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -19,6 +22,11 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!username || !password) {
+      alert('Please type in your username and password');
+      return false;
+    }
 
     try {
       const { token, refreshToken, user } = await login({
@@ -34,45 +42,31 @@ export default function LoginPage() {
 
   return (
     <AuthGuard condition='loggedIn' redirectTo='/'>
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <h1>Login Page</h1>
-        <form
-          onSubmit={handleSubmit}
-          style={{ maxWidth: '300px', margin: 'auto' }}
-        >
-          <div>
-            <input
-              type='text'
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder='Email'
-              required
-              style={{ padding: '10px', width: '100%', marginBottom: '10px' }}
-            />
-          </div>
-          <div>
-            <input
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder='Password'
-              required
-              style={{ padding: '10px', width: '100%', marginBottom: '20px' }}
-            />
-          </div>
-          <button
+      <div className={styles.pageLayout}>
+        <h1 className={styles.title}>Your Instagram!</h1>
+        <form onSubmit={handleSubmit} className={styles.formLayout}>
+          <InputField
+            placeholder='Username'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className={styles.inputStyle}
+          />
+          <InputField
+            type='password'
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.inputStyle}
+          />
+          <Button
             type='submit'
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#0070f3',
-              color: '#fff',
-              border: 'none',
-            }}
+            variant='secondary'
+            size='medium'
+            className={styles.submit}
           >
             Login
-          </button>
+          </Button>
         </form>
-        <br />
         <a href='/' style={{ color: '#0070f3', textDecoration: 'underline' }}>
           Back to Home
         </a>

@@ -10,6 +10,7 @@ type ButtonProps = {
   disabled?: boolean;
   isLoading?: boolean;
   style?: React.CSSProperties;
+  className?: string;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,12 +22,13 @@ const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   onClick,
   style,
+  className,
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${styles.button} ${styles[variant]} ${styles[size]} `}
+      className={`${styles.button} ${styles[variant]} ${styles[size]} ${className}`}
       disabled={disabled || isLoading}
       style={style}
     >
