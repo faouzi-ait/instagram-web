@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "babel-preset-current-node-syntax": "^1.0.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "14.2.11",
     "next-redux-wrapper": "^8.1.0",
     "react": "^18",

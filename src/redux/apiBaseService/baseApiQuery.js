@@ -1,8 +1,22 @@
 import axios from 'axios';
+import jwtDecode from 'jsonwebtoken';
 import { REHYDRATE } from 'redux-persist';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { setCredentials, setLogout } from '../slices/authSlice';
+
+const isTokenExpired = (token) => {
+  try {
+    const decoded = jwtDecode.decode(token); // Decode the token
+    if (!decoded.exp) return true; // If no expiration claim, treat as expired
+
+    const now = Math.floor(Date.now() / 1000); // Current time in seconds
+    return decoded.exp < now; // Check if the token has expired
+  } catch (error) {
+    console.error('Invalid token format', error);
+    return true; // Treat invalid tokens as expired
+  }
+};
 
 const baseQuery = fetchBaseQuery({
   mode: 'cors',
@@ -21,7 +35,7 @@ const baseQuery = fetchBaseQuery({
   },
   prepareHeaders: async (headers, { getState }) => {
     const token = getState().auth?.token?.token || '';
-    // console.log('TOKEN: ', getState().auth.token.token);
+    console.log('TOKEN: ', getState().auth.token);
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -30,42 +44,46 @@ const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
-  const result = await baseQuery(args, api, extraOptions);
+  const state = api.getState();
+  const token = state.auth?.token?.token || '';
+  const refreshToken = state.auth?.token?.refreshToken || '';
 
-  if (result?.error?.status === 401 || result?.error?.status === 403) {
+  console.log('CHECKING IF TOKEN IS EXPIRED...');
+  if (token && isTokenExpired(token)) {
+    console.log('TOKEN HAS EXPIRED..');
     try {
-      const state = api.getState();
-      const refreshToken = state.auth?.refreshToken || '';
-      // console.log('REFRESH TOKEN: ', api.getState());
-
       if (refreshToken) {
+        console.log('GETTING NEW TOKEN USING REFRESH TOKEN...');
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/refresh-token`,
           { refreshToken }
-        );
-
-        if (data) {
-          const { token, newRefreshToken, user } = data;
-
+          );
+          
+          if (data) {
+          console.log('DISPATCH TOKENS IN STORE...');
+          const { token: newToken, newRefreshToken, user } = data;
           api.dispatch(
             setCredentials({
               user,
-              accessToken: { token, refreshToken: newRefreshToken },
+              accessToken: { token: newToken, refreshToken: newRefreshToken },
             })
           );
-
-          return baseQuery(args, api, extraOptions); // Retry the original query
         }
+      } else {
+        api.dispatch(setLogout());
+        return { error: { status: 401, data: 'Refresh token missing' } };
       }
-      api.dispatch(setLogout()); // If refreshing failed or no refresh token is available, logout
-      return result;
     } catch (error) {
-      // console.error('Error refreshing token:', error);
+      console.error('Token refresh failed', error);
       api.dispatch(setLogout());
-      return result;
+      // REDIRECT TO HOME PAGE AFTER LOGOUT
+      return { error: { status: 401, data: 'Token refresh failed' } };
     }
   }
-  return result; // If the response status is not 401 or 403, return the result
+  
+  // Proceed with the original request
+  console.log('PROCESS WITH ORIGINAL REQUEST...');
+  return baseQuery(args, api, extraOptions);
 };
 
 export const apiSlice = createApi({

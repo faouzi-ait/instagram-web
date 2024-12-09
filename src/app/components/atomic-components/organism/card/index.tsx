@@ -158,13 +158,15 @@ const PostCard: React.FC<PostCardProps> = ({
         )}
       </div>
 
-      <ImageWithLoader
-        src={post.photo}
-        alt='Post Image'
-        sizes='auto'
-        priority
-        fill
-      />
+      {post.photo && (
+        <ImageWithLoader
+          src={post.photo}
+          alt='Post Image'
+          sizes='auto'
+          priority
+          fill
+        />
+      )}
 
       <div className={styles.content}>
         <div className={styles.icons}>
