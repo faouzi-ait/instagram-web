@@ -38,6 +38,7 @@ export default function Icon({
             display: 'inline-block',
             width: size + 'px',
             height: size + 'px',
+            cursor: 'pointer',
             color,
             ...customStyle,
           } as unknown as CSSProperties

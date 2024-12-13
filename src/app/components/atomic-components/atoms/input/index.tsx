@@ -1,33 +1,44 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface InputFieldProps {
   placeholder?: string;
   type?: string;
-  value: string;
+  value?: any;
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties;
   className?: string;
+  required?: boolean;
 }
 
-const InputField: React.FC<InputFieldProps> = ({
-  placeholder = 'Enter text',
-  value,
-  type = 'text',
-  onChange,
-  style,
-  className,
-}) => {
-  return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      style={{ padding: '4px', ...style }}
-      className={className}
-    />
-  );
-};
+const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
+  (
+    {
+      placeholder = 'Enter text',
+      value,
+      type = 'text',
+      onChange,
+      style,
+      className,
+      required = false,
+    },
+    ref
+  ) => {
+    return (
+      <input
+        ref={ref}
+        type={type}
+        placeholder={placeholder}
+        value={type !== 'file' ? value : undefined}
+        onChange={onChange}
+        style={{ padding: '4px', ...style }}
+        className={className}
+        required={required}
+      />
+    );
+  }
+);
+
+InputField.displayName = 'InputField'; // Add a display name for debugging purposes
 
 export default InputField;

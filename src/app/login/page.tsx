@@ -13,12 +13,21 @@ import { setCredentials } from '../../redux/slices/authSlice';
 
 import styles from './page.module.css';
 
+type LoginError = {
+  isLoading: boolean;
+  error: {
+    data?: {
+      error?: string;
+    };
+  };
+};
+
 export default function LoginPage() {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [login /*, { data, error, isLoading }*/] = useLoginMutation();
+  const [login, { error, isLoading }] = useLoginMutation<LoginError>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +42,7 @@ export default function LoginPage() {
         username,
         password,
       }).unwrap();
+
       dispatch(setCredentials({ user, accessToken: { token, refreshToken } }));
       router.push('/');
     } catch (error) {
@@ -63,13 +73,15 @@ export default function LoginPage() {
             variant='secondary'
             size='medium'
             className={styles.submit}
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? 'Logging you in...' : 'Login'}
           </Button>
         </form>
-        <a href='/' style={{ color: '#0070f3', textDecoration: 'underline' }}>
+        <a href='/' className={styles.homeLink}>
           Back to Home
         </a>
+        {error && <p className={styles.errorMessage}>{error?.data?.error}</p>}
       </div>
     </AuthGuard>
   );
