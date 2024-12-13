@@ -64,18 +64,18 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      const sortedPosts = data.items.sort(
+      // Create a shallow copy before sorting
+      const sortedPosts = [...(data.items || [])].sort(
         (a: Post, b: Post) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      setPostList((prevPosts) =>
-        removeDuplicates([...prevPosts, ...sortedPosts], '_id')
-      );
+      setPostList((prevPosts) => removeDuplicates([...prevPosts, ...sortedPosts], '_id'));
       if (data.items.length < size) {
         setHasMore(false);
       }
     }
   }, [data, size]);
+  
 
   const loadMorePosts = () => {
     if (hasMore) setPage((prevPage) => prevPage + 1);
