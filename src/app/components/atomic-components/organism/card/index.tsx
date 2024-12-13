@@ -27,6 +27,7 @@ import styles from './page.module.css';
 type PostCardProps = {
   post: Post;
   loading: boolean;
+  refetch: () => void;
   // eslint-disable-next-line no-unused-vars
   onPostDeleted: (id: string) => void;
 
@@ -38,6 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
   post,
   // loading,
   onPostDeleted,
+  refetch,
   onCommentAdded,
 }) => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -66,6 +68,7 @@ const PostCard: React.FC<PostCardProps> = ({
     try {
       await deletePost(post._id).unwrap();
       onPostDeleted(post._id);
+      refetch();
     } catch (error: any) {
       // console.error('Failed to delete the post:', error);
       return error;

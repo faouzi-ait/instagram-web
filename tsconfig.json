@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     "src/redux/apiServices/postsApi.js",
     "src/redux/slices/index.js",
-    "src/redux/store.ts"
+    "src/redux/store.ts",
+    "src/app/page.js"
   ],
   "exclude": ["node_modules"]
 }

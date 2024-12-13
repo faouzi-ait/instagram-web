@@ -7,6 +7,9 @@ const iconMap = {
   heartFull: 'heart-full',
   sun: 'sun',
   trash: 'trash',
+  add: 'add',
+  photo: 'photo',
+  remove: 'remove',
 };
 
 export default iconMap;

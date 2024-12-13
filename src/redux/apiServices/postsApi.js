@@ -33,14 +33,18 @@ export const apiPostListing = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Post', 'Search', 'User'],
+      invalidatesTags: ['Posts', 'Post', 'Search', 'User'],
+      keepUnusedDataFor: 1,
+      refetchOnMountOrArgChange: true,
     }),
     deletePost: builder.mutation({
       query: (id) => ({
         url: `/delete-posts/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Post', 'User', 'Search'],
+      invalidatesTags: ['Posts', 'Post', 'User', 'Search'],
+      keepUnusedDataFor: 1,
+      refetchOnMountOrArgChange: true,
     }),
     favoritePost: builder.mutation({
       query: (id) => ({
