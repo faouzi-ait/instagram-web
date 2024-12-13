@@ -35,12 +35,12 @@
   margin-bottom: 1rem;
 }
 
-.homeLink { 
-  color: #0070f3; 
-  text-decoration: underline 
+.homeLink {
+  color: #0070f3;
+  text-decoration: underline;
 }
 
 .errorMessage {
-  color: red; 
+  color: red;
   font-weight: bold;
 }
