@@ -53,9 +53,24 @@ export default function Home() {
     page,
   });
 
+  // useEffect(() => {
+  //   if (data) {
+  //     setPostList((prevPosts) => [...prevPosts, ...data.items]);
+  //     if (data.items.length < size) {
+  //       setHasMore(false);
+  //     }
+  //   }
+  // }, [data, size]);
+
   useEffect(() => {
     if (data) {
-      setPostList((prevPosts) => [...prevPosts, ...data.items]);
+      const sortedPosts = data.items.sort(
+        (a: Post, b: Post) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      setPostList((prevPosts) =>
+        removeDuplicates([...prevPosts, ...sortedPosts], '_id')
+      );
       if (data.items.length < size) {
         setHasMore(false);
       }
