@@ -4,6 +4,7 @@ interface InputFieldProps {
   placeholder?: string;
   type?: string;
   value?: any;
+  name?: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties;
@@ -16,6 +17,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     {
       placeholder = 'Enter text',
       value,
+      name,
       type = 'text',
       onChange,
       style,
@@ -26,6 +28,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
   ) => {
     return (
       <input
+        name={name}
         ref={ref}
         type={type}
         placeholder={placeholder}
