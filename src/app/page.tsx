@@ -53,29 +53,20 @@ export default function Home() {
     page,
   });
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setPostList((prevPosts) => [...prevPosts, ...data.items]);
-  //     if (data.items.length < size) {
-  //       setHasMore(false);
-  //     }
-  //   }
-  // }, [data, size]);
-
   useEffect(() => {
     if (data) {
-      // Create a shallow copy before sorting
       const sortedPosts = [...(data.items || [])].sort(
         (a: Post, b: Post) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      setPostList((prevPosts) => removeDuplicates([...prevPosts, ...sortedPosts], '_id'));
+      setPostList((prevPosts) =>
+        removeDuplicates([...prevPosts, ...sortedPosts], '_id')
+      );
       if (data.items.length < size) {
         setHasMore(false);
       }
     }
-  }, [data, size]);
-  
+  }, [data, size, page]);
 
   const loadMorePosts = () => {
     if (hasMore) setPage((prevPage) => prevPage + 1);
@@ -123,6 +114,7 @@ export default function Home() {
         setShowModal(false);
         setFile(null);
         setText('');
+        refetch();
       }
     } catch (error) {
       console.error('Error creating post:', error);
@@ -262,7 +254,12 @@ export default function Home() {
           ))}
           <div className={styles.loadMoreButton}>
             {hasMore && (
-              <Button onClick={loadMorePosts} variant='secondary' size='medium'>
+              <Button
+                onClick={loadMorePosts}
+                variant='secondary'
+                size='medium'
+                disabled={isLoading}
+              >
                 {!isLoading ? 'Load More' : 'Loading posts...'}
               </Button>
             )}

@@ -33,7 +33,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Posts', 'Post', 'Search', 'User'],
+      invalidatesTags: ['Posts', 'Search', 'User'],
       keepUnusedDataFor: 1,
       refetchOnMountOrArgChange: true,
     }),
