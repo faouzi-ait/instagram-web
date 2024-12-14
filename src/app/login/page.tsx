@@ -81,6 +81,11 @@ export default function LoginPage() {
         <a href='/' className={styles.homeLink}>
           Back to Home
         </a>
+        <br />
+        <br />
+        <a href='/register' className={styles.homeLink}>
+          Create an account
+        </a>
         {error && <p className={styles.errorMessage}>{error?.data?.error}</p>}
       </div>
     </AuthGuard>
