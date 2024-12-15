@@ -9,8 +9,12 @@ import Icon from '../components/atomic-components/atoms/icons';
 import Button from '../components/atomic-components/atoms/button';
 import InputField from '../components/atomic-components/atoms/input';
 import AuthGuard from '../components/route-protection/AuthGuard';
+import LinkItem from '../components/atomic-components/atoms/link';
+import PageLayout from '../components/atomic-components/atoms/page-layout';
 
 import { useCreateUserMutation } from '../../redux/apiServices/authApi';
+
+import { inputFields, registerLinks } from '../utils/functions';
 
 import styles from './page.module.css';
 
@@ -29,7 +33,6 @@ export default function RegisterPage() {
   const [createUser, { isLoading, error }] =
     useCreateUserMutation<RegistrationError>();
 
-  // State to handle form values, including the file input
   const [formValues, setFormValues] = useState<Record<string, any>>({
     firstname: '',
     lastname: '',
@@ -83,57 +86,22 @@ export default function RegisterPage() {
 
   return (
     <AuthGuard condition='loggedIn' redirectTo='/'>
-      <div className={styles.pageLayout}>
-        <h1 className={styles.title}>Register</h1>
-        <form onSubmit={handleSubmit} className={styles.formLayout}>
-          <InputField
-            name='firstname'
-            value={formValues.firstname}
-            placeholder='Your firstname'
-            onChange={handleFormValues}
-            className={styles.inputStyle}
-            required
-          />
-          <InputField
-            name='lastname'
-            value={formValues.lastname}
-            placeholder='Your lastname'
-            onChange={handleFormValues}
-            className={styles.inputStyle}
-            required
-          />
-          <InputField
-            name='phone'
-            value={formValues.phone}
-            placeholder='Your phone'
-            onChange={handleFormValues}
-            className={styles.inputStyle}
-            required
-          />
-          <InputField
-            name='username'
-            value={formValues.username}
-            placeholder='Your username'
-            onChange={handleFormValues}
-            className={styles.inputStyle}
-            required
-          />
-          <InputField
-            name='password'
-            value={formValues.password}
-            type='password'
-            placeholder='Your password'
-            onChange={handleFormValues}
-            className={styles.inputStyle}
-            required
-          />
-          <InputField
-            ref={fileInputRef}
-            name='photo'
-            type='file'
-            onChange={handleFormValues}
-            className={styles.inputStyle}
-          />
+      <PageLayout title='Register'>
+        <form onSubmit={handleSubmit} className='formLayout'>
+          {inputFields(fileInputRef).map((field, index) => (
+            <InputField
+              key={index}
+              type={field.type || 'text'}
+              ref={field.ref || null}
+              name={field.name}
+              placeholder={field.placeholder}
+              value={
+                field.name !== 'photo' ? formValues[field.name] : undefined
+              }
+              onChange={handleFormValues}
+              required={field.required}
+            />
+          ))}
 
           {formValues.photo && (
             <div style={{ marginBottom: '10px' }}>
@@ -153,12 +121,10 @@ export default function RegisterPage() {
               />
             </div>
           )}
-
           <Button
             type='submit'
             variant='secondary'
             size='medium'
-            className={styles.submit}
             disabled={isLoading}
           >
             {isLoading ? 'Registering...' : 'Register'}
@@ -166,20 +132,16 @@ export default function RegisterPage() {
         </form>
 
         {error && (
-          <p className={styles.errorMessage}>
+          <p className='errorMessage'>
             {error.data?.error || 'Something went wrong'}
           </p>
         )}
-
-        <a href='/' className={styles.homeLink}>
-          Go to Home Page
-        </a>
-        <br />
-        <br />
-        <a href='/login' className={styles.homeLink}>
-          Login to your account
-        </a>
-      </div>
+        {registerLinks.map((link, index) => (
+          <div key={index} style={{ marginBottom: '15px' }}>
+            <LinkItem href={link.href} label={link.label} />
+          </div>
+        ))}
+      </PageLayout>
     </AuthGuard>
   );
 }

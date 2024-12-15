@@ -1,5 +1,7 @@
 import React, { forwardRef } from 'react';
 
+import styles from './input.module.css';
+
 interface InputFieldProps {
   placeholder?: string;
   type?: string;
@@ -35,7 +37,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         value={type !== 'file' ? value : undefined}
         onChange={onChange}
         style={{ padding: '4px', ...style }}
-        className={className}
+        className={`${styles.inputStyle} ${className}`}
         required={required}
       />
     );
