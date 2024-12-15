@@ -19,8 +19,8 @@ import { useGetPostsQuery } from '../redux/apiServices/postsApi';
 import { useGetUserPhotoQuery } from '../redux/apiServices/authApi';
 import { useCreatePostMutation } from '../redux/apiServices/postsApi';
 import { currentUser } from '../redux/slices/selectors';
-
 import { setLogout } from '../redux/slices/authSlice';
+
 import { removeDuplicates } from './utils/functions';
 
 import { Post } from './utils/types';
@@ -39,7 +39,7 @@ export default function Home() {
 
   const [size] = useState<number>(3);
   const [page, setPage] = useState<number>(1);
-  const [postList, setPostList] = useState<Post[]>([]); // Single state to manage posts
+  const [postList, setPostList] = useState<Post[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const [file, setFile] = useState<File | null>(null);

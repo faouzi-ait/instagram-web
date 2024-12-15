@@ -31,6 +31,6 @@
     "src/redux/slices/index.js",
     "src/redux/store.ts",
     "src/app/page.js"
-  ],
+, "src/app/components/atomic-components/atoms/input/input.module.tsxcss"  ],
   "exclude": ["node_modules"]
 }

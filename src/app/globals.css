@@ -75,3 +75,15 @@ button:hover {
 .menu-dropdown li:hover {
   background-color: #f0f0f0;
 }
+
+/* FORM STYLES */
+.formLayout {
+  margin: auto !important;
+  margin-bottom: 15px !important;
+  max-width: 45% !important;
+}
+
+.errorMessage {
+  color: red;
+  font-weight: bold;
+}

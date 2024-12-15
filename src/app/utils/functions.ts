@@ -32,3 +32,29 @@ export const iconDisplay = (iconPrefix: string, condition: boolean): any => {
   const suffix = condition ? 'Full' : 'Empty';
   return iconPrefix + suffix;
 };
+
+export const inputFields = (fileInputRef: any) => {
+  return [
+    { name: 'firstname', placeholder: 'Your firstname', required: true },
+    { name: 'lastname', placeholder: 'Your lastname', required: true },
+    { name: 'phone', placeholder: 'Your phone', required: true },
+    { name: 'username', placeholder: 'Your username', required: true },
+    {
+      name: 'password',
+      placeholder: 'Your password',
+      type: 'password',
+      required: true,
+    },
+    { name: 'photo', type: 'file', ref: fileInputRef },
+  ];
+};
+
+export const loginLinks = [
+  { href: '/', label: 'Go to Home Page' },
+  { href: '/register', label: 'Create your account' },
+];
+
+export const registerLinks = [
+  { href: '/', label: 'Go to Home Page' },
+  { href: '/login', label: 'Login to your account' },
+];

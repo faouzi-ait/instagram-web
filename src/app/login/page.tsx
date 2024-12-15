@@ -7,11 +7,13 @@ import { useRouter } from 'next/navigation';
 import InputField from '../components/atomic-components/atoms/input';
 import Button from '../components/atomic-components/atoms/button';
 import AuthGuard from '../components/route-protection/AuthGuard';
+import PageLayout from '../components/atomic-components/atoms/page-layout';
 
 import { useLoginMutation } from '../../redux/apiServices/authApi';
 import { setCredentials } from '../../redux/slices/authSlice';
 
-import styles from './page.module.css';
+import LinkItem from '../components/atomic-components/atoms/link';
+import { loginLinks } from '../utils/functions';
 
 type LoginError = {
   isLoading: boolean;
@@ -52,42 +54,35 @@ export default function LoginPage() {
 
   return (
     <AuthGuard condition='loggedIn' redirectTo='/'>
-      <div className={styles.pageLayout}>
-        <h1 className={styles.title}>Your Instagram!</h1>
-        <form onSubmit={handleSubmit} className={styles.formLayout}>
+      <PageLayout title='Your Instagram!'>
+        <form onSubmit={handleSubmit} className='formLayout'>
           <InputField
-            placeholder='Username'
             value={username}
+            placeholder='Username'
             onChange={(e) => setUsername(e.target.value)}
-            className={styles.inputStyle}
           />
           <InputField
             type='password'
-            placeholder='Password'
             value={password}
+            placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
-            className={styles.inputStyle}
           />
           <Button
             type='submit'
             variant='secondary'
             size='medium'
-            className={styles.submit}
             disabled={isLoading}
           >
             {isLoading ? 'Logging you in...' : 'Login'}
           </Button>
         </form>
-        <a href='/' className={styles.homeLink}>
-          Back to Home
-        </a>
-        <br />
-        <br />
-        <a href='/register' className={styles.homeLink}>
-          Create an account
-        </a>
-        {error && <p className={styles.errorMessage}>{error?.data?.error}</p>}
-      </div>
+        {loginLinks.map((link, index) => (
+          <div key={index} style={{ marginBottom: '15px' }}>
+            <LinkItem href={link.href} label={link.label} />
+          </div>
+        ))}
+        {error && <p className='errorMessage'>{error?.data?.error}</p>}
+      </PageLayout>
     </AuthGuard>
   );
 }
