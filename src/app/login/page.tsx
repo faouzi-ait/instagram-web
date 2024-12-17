@@ -4,16 +4,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
-import InputField from '../components/atomic-components/atoms/input';
 import Button from '../components/atomic-components/atoms/button';
 import AuthGuard from '../components/route-protection/AuthGuard';
+import InputField from '../components/atomic-components/atoms/input';
 import PageLayout from '../components/atomic-components/atoms/page-layout';
+import HeaderSection from '../components/atomic-components/organism/header-section';
 
 import { useLoginMutation } from '../../redux/apiServices/authApi';
 import { setCredentials } from '../../redux/slices/authSlice';
-
-import LinkItem from '../components/atomic-components/atoms/link';
-import { loginLinks } from '../utils/functions';
 
 type LoginError = {
   isLoading: boolean;
@@ -54,6 +52,7 @@ export default function LoginPage() {
 
   return (
     <AuthGuard condition='loggedIn' redirectTo='/'>
+      <HeaderSection />
       <PageLayout title='Your Instagram!'>
         <form onSubmit={handleSubmit} className='formLayout'>
           <InputField
@@ -69,18 +68,13 @@ export default function LoginPage() {
           />
           <Button
             type='submit'
-            variant='secondary'
             size='medium'
+            variant='secondary'
             disabled={isLoading}
           >
             {isLoading ? 'Logging you in...' : 'Login'}
           </Button>
         </form>
-        {loginLinks.map((link, index) => (
-          <div key={index} style={{ marginBottom: '15px' }}>
-            <LinkItem href={link.href} label={link.label} />
-          </div>
-        ))}
         {error && <p className='errorMessage'>{error?.data?.error}</p>}
       </PageLayout>
     </AuthGuard>

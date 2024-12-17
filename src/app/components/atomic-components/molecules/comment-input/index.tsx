@@ -23,9 +23,10 @@ const CommentInputField: React.FC<CommentInputFieldProps> = ({
     <div className={styles.commentLayout}>
       <Avatar src={userPhoto} alt="User's photo" size='xsmall' />
       <InputField
-        placeholder='Comment here'
         value={comment}
+        placeholder='Comment here'
         onChange={onCommentChange}
+        style={{ height: 0, marginTop: '21px' }}
       />
       <Button
         variant='secondary'

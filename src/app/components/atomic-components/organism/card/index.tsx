@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Icon from '../../atoms/icons';
 import PostTextSection from '../comment';
@@ -9,8 +10,7 @@ import UserProfile from '../../molecules/user-info';
 import CommentInput from '../../molecules/comment-input';
 import ImageWithLoader from '../../atoms/image-with-loader';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { RootState } from '../../../../../redux/store';
 
 import * as util from '../../../../utils/functions';
 import * as api from '../../../../../redux/apiServices/postsApi';

@@ -72,8 +72,6 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       return { error: { status: 401, data: 'Token refresh failed' } };
     }
   }
-
-  // Proceed with the original request
   return baseQuery(args, api, extraOptions);
 };
 

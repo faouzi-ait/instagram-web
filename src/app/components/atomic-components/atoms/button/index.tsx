@@ -4,7 +4,7 @@ import styles from './button.module.css';
 type ButtonProps = {
   children: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   variant?: 'primary' | 'secondary';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;

@@ -23,7 +23,6 @@
   animation: spin 1s linear infinite;
 }
 
-/* Simple spinner animation */
 @keyframes spin {
   to {
     transform: rotate(360deg);

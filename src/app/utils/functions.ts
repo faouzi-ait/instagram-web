@@ -49,12 +49,8 @@ export const inputFields = (fileInputRef: any) => {
   ];
 };
 
-export const loginLinks = [
-  { href: '/', label: 'Go to Home Page' },
-  { href: '/register', label: 'Create your account' },
-];
-
-export const registerLinks = [
-  { href: '/', label: 'Go to Home Page' },
-  { href: '/login', label: 'Login to your account' },
+export const updateInputFields = [
+  { name: 'firstname', placeholder: 'Your firstname', required: true },
+  { name: 'lastname', placeholder: 'Your lastname', required: true },
+  { name: 'phone', placeholder: 'Your phone', required: true },
 ];
