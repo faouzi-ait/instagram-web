@@ -26,41 +26,9 @@
   }
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-}
-
-.card {
-  border: 1px solid #ddd;
-  margin: 10px 0;
-}
-
-.userProfileLayout {
-  display: flex;
-  align-items: center;
-}
-
 .mainContentLayout {
   display: flex;
   justify-content: center;
-}
-
-.iconsLayout {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  width: 50%;
-}
-
-.iconMargin {
-  margin-left: 5px;
-}
-
-.flexRightAlign {
-  margin-left: auto;
 }
 
 .loadMoreButton {

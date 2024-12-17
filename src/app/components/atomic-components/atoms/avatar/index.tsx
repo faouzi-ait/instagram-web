@@ -21,12 +21,10 @@ const Avatar: React.FC<AvatarProps> = ({
     large: 100,
   };
 
-  const dimension = sizeMap[size];
-
   return (
     <Image
-      width={dimension}
-      height={dimension}
+      width={sizeMap[size]}
+      height={sizeMap[size]}
       alt={alt}
       src={src}
       priority

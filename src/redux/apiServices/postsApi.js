@@ -11,13 +11,13 @@ export const apiPostListing = apiSlice.injectEndpoints({
         });
         return `/listing-posts?${queryParams.toString()}`;
       },
-      providesTags: ['Posts', 'Post', 'Search'],
+      providesTags: ['Posts', 'Post'],
       keepUnusedDataFor: 1,
       refetchOnMountOrArgChange: true,
     }),
     getSinglePost: builder.query({
       query: (id) => `/single-post/${id}`,
-      providesTags: ['Post', 'Posts', 'User', 'Search'],
+      providesTags: ['Post', 'Posts', 'User'],
       keepUnusedDataFor: 1,
     }),
     likePost: builder.mutation({
@@ -33,7 +33,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Posts', 'Search', 'User'],
+      invalidatesTags: ['Posts', 'User'],
       keepUnusedDataFor: 1,
       refetchOnMountOrArgChange: true,
     }),
@@ -42,7 +42,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         url: `/delete-posts/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Posts', 'Post', 'User', 'Search'],
+      invalidatesTags: ['Posts', 'Post', 'User'],
       keepUnusedDataFor: 1,
       refetchOnMountOrArgChange: true,
     }),
@@ -51,7 +51,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         url: `/favorite-post/${id}`,
         method: 'POST',
       }),
-      invalidatesTags: ['Post', 'Posts', 'User', 'Search'],
+      invalidatesTags: ['Post', 'Posts', 'User'],
     }),
     createReview: builder.mutation({
       query: (body) => ({
@@ -59,7 +59,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['Post', 'Search'],
+      invalidatesTags: ['Post'],
     }),
     userFavoritePost: builder.mutation({
       query: (id) => ({
@@ -73,7 +73,7 @@ export const apiPostListing = apiSlice.injectEndpoints({
         url: `/viewed-post/${id}`,
         method: 'POST',
       }),
-      invalidatesTags: ['Post', 'Search'],
+      invalidatesTags: ['Post'],
     }),
   }),
   onError: (/* error , { dispatch, getState }*/) => {

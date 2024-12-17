@@ -1,5 +1,7 @@
 .commentLayout {
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 0 !important;
   gap: 0.5rem;
 }

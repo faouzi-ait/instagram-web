@@ -1,0 +1,19 @@
+.userProfileLayout {
+  display: flex;
+  align-items: center;
+}
+
+.iconsLayout {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.iconMargin {
+  margin-left: 5px;
+}
+
+.flexRightAlign {
+  margin-left: auto;
+}

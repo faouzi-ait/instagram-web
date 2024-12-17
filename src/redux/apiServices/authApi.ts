@@ -22,7 +22,7 @@ export const authApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['User', 'Search', 'Photo'],
+      invalidatesTags: ['User', 'Photo'],
     }),
     updateUserDetails: builder.mutation({
       query: (body) => ({
@@ -30,7 +30,7 @@ export const authApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['User', 'Search', 'Photo'],
+      invalidatesTags: ['User', 'Photo'],
     }),
     getUserPhoto: builder.query({
       query: (id) => `/user-photo/${id}`,

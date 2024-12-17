@@ -9,12 +9,12 @@ import Icon from '../components/atomic-components/atoms/icons';
 import Button from '../components/atomic-components/atoms/button';
 import InputField from '../components/atomic-components/atoms/input';
 import AuthGuard from '../components/route-protection/AuthGuard';
-import LinkItem from '../components/atomic-components/atoms/link';
 import PageLayout from '../components/atomic-components/atoms/page-layout';
+import HeaderSection from '../components/atomic-components/organism/header-section';
 
 import { useCreateUserMutation } from '../../redux/apiServices/authApi';
 
-import { inputFields, registerLinks } from '../utils/functions';
+import { inputFields } from '../utils/functions';
 
 import styles from './page.module.css';
 
@@ -86,6 +86,7 @@ export default function RegisterPage() {
 
   return (
     <AuthGuard condition='loggedIn' redirectTo='/'>
+      <HeaderSection />
       <PageLayout title='Register'>
         <form onSubmit={handleSubmit} className='formLayout'>
           {inputFields(fileInputRef).map((field, index) => (
@@ -136,11 +137,6 @@ export default function RegisterPage() {
             {error.data?.error || 'Something went wrong'}
           </p>
         )}
-        {registerLinks.map((link, index) => (
-          <div key={index} style={{ marginBottom: '15px' }}>
-            <LinkItem href={link.href} label={link.label} />
-          </div>
-        ))}
       </PageLayout>
     </AuthGuard>
   );

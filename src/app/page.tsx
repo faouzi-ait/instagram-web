@@ -1,25 +1,19 @@
 'use client';
 
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useRouter } from 'next/navigation';
 
-import Icon from './components/atomic-components/atoms/icons';
 import Button from './components/atomic-components/atoms/button';
-import Header from './components/atomic-components/atoms/header';
-import PostCard from './components/atomic-components/organism/card';
-import ThemeToggle from './components/atomic-components/molecules/toggle-theme';
-import UserProfile from './components/atomic-components/molecules/user-info';
-import InputField from './components/atomic-components/atoms/input';
+import Icon from './components/atomic-components/atoms/icons';
 import Modal from './components/atomic-components/molecules/modal';
+import InputField from './components/atomic-components/atoms/input';
+import PostCard from './components/atomic-components/organism/card';
+import HeaderSection from './components/atomic-components/organism/header-section';
 
+import { RootState } from '../redux/store';
 import { useGetPostsQuery } from '../redux/apiServices/postsApi';
-import { useGetUserPhotoQuery } from '../redux/apiServices/authApi';
 import { useCreatePostMutation } from '../redux/apiServices/postsApi';
-import { currentUser } from '../redux/slices/selectors';
-import { setLogout } from '../redux/slices/authSlice';
 
 import { removeDuplicates } from './utils/functions';
 
@@ -28,14 +22,9 @@ import { Post } from './utils/types';
 import styles from './page.module.css';
 
 export default function Home() {
-  const router = useRouter();
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const userId = useSelector(currentUser);
-  const { isLoggedIn, user } = useSelector((item: RootState) => item.auth);
-
-  const loggedInUserPhoto = useGetUserPhotoQuery(userId);
   const [createPost, items] = useCreatePostMutation();
+  const { isLoggedIn } = useSelector((item: RootState) => item.auth);
 
   const [size] = useState<number>(3);
   const [page, setPage] = useState<number>(1);
@@ -86,10 +75,6 @@ export default function Home() {
     setPostList((prevPosts) => prevPosts.filter((post) => post._id !== postId));
   };
 
-  const logout = async () => {
-    dispatch(setLogout());
-  };
-
   const uniquePosts = removeDuplicates(postList, '_id');
 
   const handleIconClick = () => {
@@ -123,123 +108,81 @@ export default function Home() {
 
   return (
     <>
-      <Header>
-        <>
-          {isLoggedIn && (
-            <UserProfile
-              photo={loggedInUserPhoto?.data?.photo}
-              name={`${user.firstname} ${user.lastname}`}
-              alt="User's Profile Photo"
-              avatarSize='medium'
-              labelSize='medium'
-              className={styles.userProfileLayout}
+      <HeaderSection>
+        {isLoggedIn && (
+          <>
+            <Icon
+              name='add'
+              size={40}
+              onClick={() => setShowModal(true)}
+              color='black'
             />
-          )}
-
-          <div className={styles.iconsLayout}>
-            {isLoggedIn && (
-              <>
-                <Icon
-                  name='add'
-                  size={40}
-                  onClick={() => setShowModal(true)}
-                  color='black'
-                />
-                <Modal show={showModal} onClose={() => setShowModal(false)}>
-                  <form
-                    onSubmit={handleFormSubmit}
-                    className={styles.modalContentLayout}
-                  >
-                    <div className={styles.modalIcon}>
-                      {file ? (
-                        <div>
-                          <Image
-                            src={URL.createObjectURL(file)}
-                            alt='Selected'
-                            width={100}
-                            height={400}
-                            className={styles.modalImageSize}
-                          />
-                          <Icon
-                            name='remove'
-                            size={40}
-                            color='black'
-                            className={styles.deleteIcon}
-                            onClick={() => setFile(null)}
-                          />
-                        </div>
-                      ) : (
-                        <Icon
-                          name='photo'
-                          size={20}
-                          color='red'
-                          onClick={handleIconClick}
-                          className={styles.fileInputIcon}
-                        />
-                      )}
+            <Modal show={showModal} onClose={() => setShowModal(false)}>
+              <form
+                onSubmit={handleFormSubmit}
+                className={styles.modalContentLayout}
+              >
+                <div className={styles.modalIcon}>
+                  {file ? (
+                    <div>
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt='Selected'
+                        width={100}
+                        height={400}
+                        className={styles.modalImageSize}
+                      />
+                      <Icon
+                        name='remove'
+                        size={40}
+                        color='black'
+                        className={styles.deleteIcon}
+                        onClick={() => setFile(null)}
+                      />
                     </div>
-                    <InputField
-                      type='file'
-                      ref={fileInputRef}
-                      onChange={(e) => {
-                        const file = (e.target as HTMLInputElement).files?.[0];
-                        if (file) {
-                          setFile(file);
-                        }
-                      }}
-                      style={{ display: 'none' }}
-                      required
+                  ) : (
+                    <Icon
+                      name='photo'
+                      size={20}
+                      color='red'
+                      onClick={handleIconClick}
+                      className={styles.fileInputIcon}
                     />
-
-                    <InputField
-                      value={text}
-                      placeholder='What are you up to?'
-                      onChange={(e) => setText(e.target.value)}
-                      className={styles.modalTextInput}
-                      required
-                    />
-
-                    <Button
-                      type='submit'
-                      variant='secondary'
-                      size='medium'
-                      className={styles.submitButton}
-                      disabled={items?.isLoading}
-                    >
-                      {items?.isLoading ? 'Creating Post' : 'Share your Post'}
-                    </Button>
-                  </form>
-                </Modal>
-              </>
-            )}
-
-            <span className={styles.flexRightAlign}></span>
-
-            <ThemeToggle />
-            {isLoggedIn && (
-              <Button
-                onClick={logout}
-                variant='secondary'
-                size='large'
-                className={styles.iconMargin}
-              >
-                logout
-              </Button>
-            )}
-
-            {!isLoggedIn && (
-              <Button
-                size='large'
-                variant='secondary'
-                onClick={() => router.push('/login')}
-                className={styles.iconMargin}
-              >
-                login
-              </Button>
-            )}
-          </div>
-        </>
-      </Header>
+                  )}
+                </div>
+                <InputField
+                  type='file'
+                  ref={fileInputRef}
+                  onChange={(e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (file) {
+                      setFile(file);
+                    }
+                  }}
+                  style={{ display: 'none' }}
+                  required
+                />
+                <InputField
+                  value={text}
+                  placeholder='What are you up to?'
+                  onChange={(e) => setText(e.target.value)}
+                  className={styles.modalTextInput}
+                  required
+                />
+                <Button
+                  type='submit'
+                  variant='secondary'
+                  size='medium'
+                  className={styles.submitButton}
+                  disabled={items?.isLoading}
+                >
+                  {items?.isLoading ? 'Creating Post' : 'Share your Post'}
+                </Button>
+              </form>
+            </Modal>
+          </>
+        )}
+      </HeaderSection>
       <div className={styles.mainContentLayout}>
         <div>
           {uniquePosts.map((post: Post) => (
