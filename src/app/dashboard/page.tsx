@@ -6,9 +6,11 @@ import Image from 'next/image';
 
 import Icon from '../components/atomic-components/atoms/icons';
 import Button from '../components/atomic-components/atoms/button';
+import Message from '../components/atomic-components/atoms/message';
 import InputField from '../components/atomic-components/atoms/input';
 import AuthGuard from '../components/route-protection/AuthGuard';
 import PageLayout from '../components/atomic-components/atoms/page-layout';
+import HeaderSection from '../components/atomic-components/organism/header-section';
 
 import {
   useGetUserPhotoQuery,
@@ -20,7 +22,6 @@ import { currentUser } from '../../redux/slices/selectors';
 import { updateInputFields } from '../utils/functions';
 
 import styles from './page.module.css';
-import HeaderSection from '../components/atomic-components/organism/header-section';
 
 export default function Dashboard() {
   const userId = useSelector(currentUser);
@@ -32,12 +33,12 @@ export default function Dashboard() {
 
   const [
     updateUserPhoto,
-    { isLoading: photoLoading, /*error: photoError,*/ data: photoData },
+    { isLoading: photoLoading, error: photoError, data: photoData },
   ] = useUpdateUserPhotoMutation();
 
   const [
     updateUserDetails,
-    { isLoading: detailsLoading, /*error: detailError,*/ data: detailData },
+    { isLoading: detailsLoading, error: detailError, data: detailData },
   ] = useUpdateUserDetailsMutation();
 
   const [formValues, setFormValues] = useState<Record<string, any>>({
@@ -123,11 +124,17 @@ export default function Dashboard() {
               {detailsLoading ? 'Updating Details...' : 'Update Details'}
             </Button>
 
-            {detailData && (
-              <p style={{ color: 'green', fontWeight: 'bold' }}>
-                Details updated successfully
-              </p>
-            )}
+            <Message
+              condition={detailData}
+              text={detailData?.message as string}
+              isError={false}
+            />
+
+            <Message
+              condition={detailError}
+              text={'There was an error while updating info'}
+              isError
+            />
           </form>
 
           <form onSubmit={handlePhotoFormSubmit} className='formLayout'>
@@ -191,11 +198,17 @@ export default function Dashboard() {
               {photoLoading ? 'Updating Photo...' : 'Update Photo'}
             </Button>
 
-            {photoData && (
-              <p style={{ color: 'green', fontWeight: 'bold' }}>
-                Photo updated successfully
-              </p>
-            )}
+            <Message
+              condition={photoData}
+              text='Your photo was successfully uploaded'
+              isError={false}
+            />
+
+            <Message
+              condition={photoError}
+              text='There was an error during upload...'
+              isError
+            />
           </form>
         </div>
       </PageLayout>

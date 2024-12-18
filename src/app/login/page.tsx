@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import Button from '../components/atomic-components/atoms/button';
 import AuthGuard from '../components/route-protection/AuthGuard';
+import Message from '../components/atomic-components/atoms/message';
 import InputField from '../components/atomic-components/atoms/input';
 import PageLayout from '../components/atomic-components/atoms/page-layout';
 import HeaderSection from '../components/atomic-components/organism/header-section';
@@ -75,7 +76,11 @@ export default function LoginPage() {
             {isLoading ? 'Logging you in...' : 'Login'}
           </Button>
         </form>
-        {error && <p className='errorMessage'>{error?.data?.error}</p>}
+        <Message
+          condition={error}
+          text={error?.data?.error as string}
+          isError
+        />
       </PageLayout>
     </AuthGuard>
   );

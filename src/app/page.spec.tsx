@@ -9,7 +9,7 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
   }),
-  usePathname: jest.fn(() => '/'),
+  usePathname: jest.fn(() => '/'), // Mock the usePathname function
 }));
 
 beforeAll(() => {

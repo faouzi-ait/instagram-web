@@ -14,26 +14,26 @@ interface CommentInputFieldProps {
 }
 
 const CommentInputField: React.FC<CommentInputFieldProps> = ({
-  userPhoto,
   comment,
+  userPhoto,
   onCommentChange,
   onSubmitComment,
 }) => {
   return (
     <div className={styles.commentLayout}>
-      <Avatar src={userPhoto} alt="User's photo" size='xsmall' />
+      <Avatar
+        src={userPhoto}
+        alt="User's photo"
+        size='xsmall'
+        className={styles.avatarWidth}
+      />
       <InputField
         value={comment}
         placeholder='Comment here'
         onChange={onCommentChange}
-        style={{ height: 0, marginTop: '21px' }}
+        className={styles.commentField}
       />
-      <Button
-        variant='secondary'
-        size='small'
-        onClick={onSubmitComment}
-        style={{ backgroundColor: 'black', color: 'white' }}
-      >
+      <Button variant='secondary' size='small' onClick={onSubmitComment}>
         Comment
       </Button>
     </div>
