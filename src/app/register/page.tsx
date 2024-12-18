@@ -6,9 +6,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import Icon from '../components/atomic-components/atoms/icons';
+import AuthGuard from '../components/route-protection/AuthGuard';
 import Button from '../components/atomic-components/atoms/button';
 import InputField from '../components/atomic-components/atoms/input';
-import AuthGuard from '../components/route-protection/AuthGuard';
+import Message from '../components/atomic-components/atoms/message';
 import PageLayout from '../components/atomic-components/atoms/page-layout';
 import HeaderSection from '../components/atomic-components/organism/header-section';
 
@@ -132,11 +133,11 @@ export default function RegisterPage() {
           </Button>
         </form>
 
-        {error && (
-          <p className='errorMessage'>
-            {error.data?.error || 'Something went wrong'}
-          </p>
-        )}
+        <Message
+          isError={false}
+          condition={error}
+          text={(error?.data?.error as string) || 'Something went wrong'}
+        />
       </PageLayout>
     </AuthGuard>
   );

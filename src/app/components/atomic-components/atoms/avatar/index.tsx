@@ -6,6 +6,7 @@ interface AvatarProps {
   alt: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -13,6 +14,7 @@ const Avatar: React.FC<AvatarProps> = ({
   alt,
   size = 'medium',
   style,
+  className,
 }) => {
   const sizeMap = {
     xsmall: 30,
@@ -20,6 +22,8 @@ const Avatar: React.FC<AvatarProps> = ({
     medium: 75,
     large: 100,
   };
+
+  if (!src) return;
 
   return (
     <Image
@@ -32,6 +36,7 @@ const Avatar: React.FC<AvatarProps> = ({
         borderRadius: '50%',
         ...style,
       }}
+      className={className}
     />
   );
 };
