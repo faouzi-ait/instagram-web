@@ -1,3 +1,13 @@
+.dashboardContainer { 
+  display: flex;
+  align-items: center 
+}
+
+.imageUpdateLayout { 
+  position: relative ;
+  margin-bottom: 10px; 
+}
+
 .imageSize {
   width: 200px;
   height: 200px;

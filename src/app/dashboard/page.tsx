@@ -8,11 +8,10 @@ import Icon from '../components/atomic-components/atoms/icons';
 import Button from '../components/atomic-components/atoms/button';
 import Message from '../components/atomic-components/atoms/message';
 import InputField from '../components/atomic-components/atoms/input';
-import AuthGuard from '../components/route-protection/AuthGuard';
-import PageLayout from '../components/atomic-components/atoms/page-layout';
-import HeaderSection from '../components/atomic-components/organism/header-section';
+import PageLayoutDisplay from '../components/atomic-components/template';
 
 import {
+  useGetUserQuery,
   useGetUserPhotoQuery,
   useUpdateUserPhotoMutation,
   useUpdateUserDetailsMutation,
@@ -30,6 +29,8 @@ export default function Dashboard() {
 
   const { data: loggedInUserPhoto, refetch: refetchUserPhoto } =
     useGetUserPhotoQuery(userId);
+
+  const { refetch: refetchUserData } = useGetUserQuery(userId);
 
   const [
     updateUserPhoto,
@@ -79,6 +80,7 @@ export default function Dashboard() {
 
       await updateUserPhoto(formData);
       await refetchUserPhoto();
+      await refetchUserData();
       setPhoto(null);
     } catch (error) {
       console.error('Error updating photo:', error);
@@ -99,119 +101,118 @@ export default function Dashboard() {
   };
 
   return (
-    <AuthGuard condition='notLoggedIn' redirectTo='/'>
-      <HeaderSection />
-      <PageLayout title='Update your details'>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <form onSubmit={handleTextFormSubmit} className='formLayout'>
-            {updateInputFields.map((field, index) => (
-              <InputField
-                key={index}
-                type='text'
-                name={field.name}
-                placeholder={field.placeholder}
-                value={formValues[field.name]}
-                onChange={handleTextInputChange}
-                required={field.required}
+    <PageLayoutDisplay
+      title='Update your details'
+      condition='notLoggedIn'
+      redirectTo='/'
+    >
+      <div className={styles.dashboardContainer}>
+        <form onSubmit={handleTextFormSubmit} className='formLayout'>
+          {updateInputFields.map((field, index) => (
+            <InputField
+              key={index}
+              type='text'
+              name={field.name}
+              placeholder={field.placeholder}
+              value={formValues[field.name]}
+              onChange={handleTextInputChange}
+              required={field.required}
+            />
+          ))}
+          <Button
+            type='submit'
+            variant='secondary'
+            size='medium'
+            disabled={detailsLoading}
+          >
+            {detailsLoading ? 'Updating Details...' : 'Update Details'}
+          </Button>
+
+          <Message
+            condition={detailData}
+            text={detailData?.message as string}
+            isError={false}
+          />
+
+          <Message
+            condition={detailError}
+            text={'There was an error while updating info'}
+            isError
+          />
+        </form>
+
+        <form onSubmit={handlePhotoFormSubmit} className='formLayout'>
+          <div className={styles.imageUpdateLayout}>
+            {(photo || loggedInUserPhoto?.photo) && (
+              <Image
+                src={
+                  photo ? URL.createObjectURL(photo) : loggedInUserPhoto?.photo
+                }
+                alt='Selected or User Photo'
+                width={50}
+                height={150}
+                className={styles.imageSize}
               />
-            ))}
-            <Button
-              type='submit'
-              variant='secondary'
-              size='medium'
-              disabled={detailsLoading}
-            >
-              {detailsLoading ? 'Updating Details...' : 'Update Details'}
-            </Button>
+            )}
 
-            <Message
-              condition={detailData}
-              text={detailData?.message as string}
-              isError={false}
+            <InputField
+              ref={fileInputRef}
+              type='file'
+              name='photo'
+              onChange={handlePhotoChange}
+              style={{ display: 'none' }}
             />
 
-            <Message
-              condition={detailError}
-              text={'There was an error while updating info'}
-              isError
-            />
-          </form>
-
-          <form onSubmit={handlePhotoFormSubmit} className='formLayout'>
-            <div style={{ marginBottom: '10px', position: 'relative' }}>
-              {(photo || loggedInUserPhoto?.photo) && (
-                <Image
-                  src={
-                    photo
-                      ? URL.createObjectURL(photo)
-                      : loggedInUserPhoto?.photo
-                  }
-                  alt='Selected or User Photo'
-                  width={50}
-                  height={150}
-                  className={styles.imageSize}
-                />
-              )}
-
-              <InputField
-                ref={fileInputRef}
-                type='file'
+            {photo ? (
+              <Icon
+                name='remove'
+                size={40}
+                color='black'
+                style={{
+                  position: 'absolute',
+                  cursor: 'pointer',
+                  top: 0,
+                  right: 0,
+                }}
+                onClick={resetPhoto}
+              />
+            ) : (
+              <Icon
                 name='photo'
-                onChange={handlePhotoChange}
-                style={{ display: 'none' }}
+                size={40}
+                color='black'
+                style={{
+                  position: 'absolute',
+                  cursor: 'pointer',
+                  top: 0,
+                  right: 0,
+                }}
+                onClick={handleIconClick}
               />
+            )}
+          </div>
+          <Button
+            type='submit'
+            variant='secondary'
+            size='medium'
+            disabled={photoLoading}
+          >
+            {photoLoading ? 'Updating Photo...' : 'Update Photo'}
+          </Button>
 
-              {photo ? (
-                <Icon
-                  name='remove'
-                  size={40}
-                  color='black'
-                  style={{
-                    position: 'absolute',
-                    cursor: 'pointer',
-                    top: 0,
-                    right: 0,
-                  }}
-                  onClick={resetPhoto}
-                />
-              ) : (
-                <Icon
-                  name='photo'
-                  size={40}
-                  color='black'
-                  style={{
-                    position: 'absolute',
-                    cursor: 'pointer',
-                    top: 0,
-                    right: 0,
-                  }}
-                  onClick={handleIconClick}
-                />
-              )}
-            </div>
-            <Button
-              type='submit'
-              variant='secondary'
-              size='medium'
-              disabled={photoLoading}
-            >
-              {photoLoading ? 'Updating Photo...' : 'Update Photo'}
-            </Button>
+          <Message
+            condition={photoData}
+            text='Your photo was successfully uploaded'
+            isError={false}
+          />
 
-            <Message
-              condition={photoData}
-              text='Your photo was successfully uploaded'
-              isError={false}
-            />
-
-            <Message
-              condition={photoError}
-              text='There was an error during upload...'
-              isError
-            />
-          </form>
-        </div>
-      </PageLayout>
-    </AuthGuard>
+          <Message
+            condition={photoError}
+            text='There was an error during upload...'
+            isError
+          />
+        </form>
+      </div>
+    </PageLayoutDisplay>
   );
 }
