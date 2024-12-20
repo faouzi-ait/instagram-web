@@ -56,9 +56,9 @@ const PostCard: React.FC<PostCardProps> = ({
   const isOwnPost = util.isOwnerPost(post, userId);
   const hasReviewed = util.hasReview(post, userId);
 
-  const [likeCount, setLikeCount] = useState(post.likes.length);
-  const [liked, setLiked] = useState(isPostLiked);
   const [comment, setComment] = useState('');
+  const [liked, setLiked] = useState(isPostLiked);
+  const [likeCount, setLikeCount] = useState(post.likes.length);
   const isFavoritedInitialState = util.isFavorites(post, userId);
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitialState);
 

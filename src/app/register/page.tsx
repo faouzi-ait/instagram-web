@@ -6,12 +6,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import Icon from '../components/atomic-components/atoms/icons';
-import AuthGuard from '../components/route-protection/AuthGuard';
 import Button from '../components/atomic-components/atoms/button';
 import InputField from '../components/atomic-components/atoms/input';
 import Message from '../components/atomic-components/atoms/message';
-import PageLayout from '../components/atomic-components/atoms/page-layout';
-import HeaderSection from '../components/atomic-components/organism/header-section';
+import PageLayoutDisplay from '../components/atomic-components/template';
 
 import { useCreateUserMutation } from '../../redux/apiServices/authApi';
 
@@ -86,59 +84,54 @@ export default function RegisterPage() {
   };
 
   return (
-    <AuthGuard condition='loggedIn' redirectTo='/'>
-      <HeaderSection />
-      <PageLayout title='Register'>
-        <form onSubmit={handleSubmit} className='formLayout'>
-          {inputFields(fileInputRef).map((field, index) => (
-            <InputField
-              key={index}
-              type={field.type || 'text'}
-              ref={field.ref || null}
-              name={field.name}
-              placeholder={field.placeholder}
-              value={
-                field.name !== 'photo' ? formValues[field.name] : undefined
-              }
-              onChange={handleFormValues}
-              required={field.required}
+    <PageLayoutDisplay title='Register' condition='loggedIn' redirectTo='/'>
+      <form onSubmit={handleSubmit} className='formLayout'>
+        {inputFields(fileInputRef).map((field, index) => (
+          <InputField
+            key={index}
+            type={field.type || 'text'}
+            ref={field.ref || null}
+            name={field.name}
+            placeholder={field.placeholder}
+            value={field.name !== 'photo' ? formValues[field.name] : undefined}
+            onChange={handleFormValues}
+            required={field.required}
+          />
+        ))}
+
+        {formValues.photo && (
+          <div style={{ marginBottom: '10px' }}>
+            <Image
+              src={URL.createObjectURL(formValues.photo)}
+              alt='Selected'
+              width={100}
+              height={400}
+              className={styles.imageSize}
             />
-          ))}
+            <Icon
+              name='remove'
+              size={40}
+              color='black'
+              style={{ position: 'absolute' }}
+              onClick={resetPhoto}
+            />
+          </div>
+        )}
+        <Button
+          type='submit'
+          variant='secondary'
+          size='medium'
+          disabled={isLoading}
+        >
+          {isLoading ? 'Registering...' : 'Register'}
+        </Button>
+      </form>
 
-          {formValues.photo && (
-            <div style={{ marginBottom: '10px' }}>
-              <Image
-                src={URL.createObjectURL(formValues.photo)}
-                alt='Selected'
-                width={100}
-                height={400}
-                className={styles.imageSize}
-              />
-              <Icon
-                name='remove'
-                size={40}
-                color='black'
-                style={{ position: 'absolute' }}
-                onClick={resetPhoto}
-              />
-            </div>
-          )}
-          <Button
-            type='submit'
-            variant='secondary'
-            size='medium'
-            disabled={isLoading}
-          >
-            {isLoading ? 'Registering...' : 'Register'}
-          </Button>
-        </form>
-
-        <Message
-          isError={false}
-          condition={error}
-          text={(error?.data?.error as string) || 'Something went wrong'}
-        />
-      </PageLayout>
-    </AuthGuard>
+      <Message
+        isError={false}
+        condition={error}
+        text={(error?.data?.error as string) || 'Something went wrong'}
+      />
+    </PageLayoutDisplay>
   );
 }
