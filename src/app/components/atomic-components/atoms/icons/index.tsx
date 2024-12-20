@@ -10,6 +10,7 @@ export interface IconProps {
   style?: CSSProperties;
   className?: string;
   onClick?: () => void;
+  testId?: string;
 }
 
 export default function Icon({
@@ -19,6 +20,7 @@ export default function Icon({
   style: customStyle,
   className,
   onClick,
+  testId,
 }: IconProps) {
   const iconFileName = iconMap[name];
   const IconSvg = React.useMemo(
@@ -31,7 +33,11 @@ export default function Icon({
   }
 
   return (
-    <Suspense fallback={<div style={{ width: size, height: size }}></div>}>
+    <Suspense
+      fallback={
+        <div style={{ width: size, height: size }} data-testid={testId}></div>
+      }
+    >
       <span
         style={
           {

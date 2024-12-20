@@ -1,16 +1,9 @@
 module.exports = {
+  reporters: ['default'],
   silent: true,
-  collectCoverage: true,
+  collectCoverage: false,
   coverageProvider: 'v8',
-  collectCoverageFrom: [
-    '**/*.{js,jsx,ts,tsx}',
-    '!**/*.d.ts',
-    '!**/node_modules/**',
-    '!<rootDir>/out/**',
-    '!<rootDir>/.next/**',
-    '!<rootDir>/*.config.js',
-    '!<rootDir>/coverage/**',
-  ],
+  collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
