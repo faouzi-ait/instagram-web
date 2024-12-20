@@ -62,6 +62,7 @@ export default function Dashboard() {
     e.preventDefault();
     try {
       await updateUserDetails(formValues);
+      await refetchUserData();
     } catch (error) {
       console.error('Error updating details:', error);
     }
@@ -80,7 +81,6 @@ export default function Dashboard() {
 
       await updateUserPhoto(formData);
       await refetchUserPhoto();
-      await refetchUserData();
       setPhoto(null);
     } catch (error) {
       console.error('Error updating photo:', error);

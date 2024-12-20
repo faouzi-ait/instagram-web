@@ -1,11 +1,11 @@
-.dashboardContainer { 
+.dashboardContainer {
   display: flex;
-  align-items: center 
+  align-items: center;
 }
 
-.imageUpdateLayout { 
-  position: relative ;
-  margin-bottom: 10px; 
+.imageUpdateLayout {
+  position: relative;
+  margin-bottom: 10px;
 }
 
 .imageSize {

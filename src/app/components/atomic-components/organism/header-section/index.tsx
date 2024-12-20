@@ -12,7 +12,10 @@ import UserProfile from '../../molecules/user-info';
 import { RootState } from '../../../../../redux/store';
 import { setLogout } from '../../../../../redux/slices/authSlice';
 import { currentUser } from '../../../../../redux/slices/selectors';
-import { useGetUserPhotoQuery } from '../../../../../redux/apiServices/authApi';
+import {
+  useGetUserQuery,
+  useGetUserPhotoQuery,
+} from '../../../../../redux/apiServices/authApi';
 
 import styles from './page.module.css';
 
@@ -25,9 +28,10 @@ const HeaderSection = ({ children }: HeaderSectionProps) => {
   const path = usePathname();
   const dispatch = useDispatch();
   const userId = useSelector(currentUser);
-  const { isLoggedIn, user } = useSelector((item: RootState) => item.auth);
+  const { isLoggedIn } = useSelector((item: RootState) => item.auth);
 
   const loggedInUserPhoto = useGetUserPhotoQuery(userId);
+  const { data } = useGetUserQuery(userId);
 
   const logout = async () => {
     dispatch(setLogout());
@@ -66,7 +70,7 @@ const HeaderSection = ({ children }: HeaderSectionProps) => {
         {isLoggedIn && (
           <UserProfile
             photo={loggedInUserPhoto?.data?.photo}
-            name={`${user.firstname} ${user.lastname}`}
+            name={`${data?.user?.firstname} ${data?.user?.lastname}`}
             alt="User's Profile Photo"
             avatarSize='medium'
             labelSize='medium'
