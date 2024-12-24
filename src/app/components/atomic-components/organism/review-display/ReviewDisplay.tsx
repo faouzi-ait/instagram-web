@@ -7,13 +7,11 @@ import styles from './page.module.css';
 const ReviewDisplay = ({ userId, username, comment }: ReviewDisplayProps) => {
   const { data } = useGetUserPhotoQuery(userId);
 
-  if (!data?.photo) return null;
-
   return (
     <div className={styles.displayLayout}>
       <div className={styles.contentFormat}>
         <UserProfile
-          photo={data.photo}
+          photo={data?.photo}
           name={username}
           alt="User's Profile Photo"
           avatarSize='xsmall'
