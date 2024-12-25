@@ -89,7 +89,7 @@ export default function RegisterPage() {
         {inputFields(fileInputRef).map((field, index) => (
           <InputField
             key={index}
-            type={field.type || 'text'}
+            type={field.type as 'number' | 'password' | 'text' | 'file' | 'email' | 'url' || 'text'}
             ref={field.ref || null}
             name={field.name}
             placeholder={field.placeholder}
@@ -129,7 +129,7 @@ export default function RegisterPage() {
 
       <Message
         isError={false}
-        condition={error}
+        condition={!!error}
         text={(error?.data?.error as string) || 'Something went wrong'}
       />
     </PageLayoutDisplay>

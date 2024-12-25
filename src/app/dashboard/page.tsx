@@ -125,7 +125,7 @@ export default function Dashboard() {
             size='medium'
             disabled={detailsLoading}
           >
-            {detailsLoading ? 'Updating Details...' : 'Update Details'}
+            {detailsLoading ? 'Updating Details....' : 'Update Details'}
           </Button>
 
           <Message
