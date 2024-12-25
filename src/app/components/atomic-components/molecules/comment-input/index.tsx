@@ -1,11 +1,11 @@
 import React from 'react';
 import Avatar from '../../atoms/avatar';
-import InputField from '../../atoms/input';
 import Button from '../../atoms/button';
+import InputField from '../../atoms/input';
 
 import styles from './comment.module.css';
 
-interface CommentInputFieldProps {
+export interface CommentInputFieldProps {
   userPhoto: string;
   comment: string;
   // eslint-disable-next-line no-unused-vars

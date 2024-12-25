@@ -8,7 +8,7 @@ import { RootState } from '../../../redux/store';
 
 interface AuthGuardProps {
   redirectTo: string;
-  condition: 'loggedIn' | 'notLoggedIn';
+  condition: 'private' | 'public';
   children: React.ReactNode;
 }
 
@@ -22,8 +22,8 @@ const AuthGuard: React.FC<AuthGuardProps> = ({
 
   useEffect(() => {
     const shouldRedirect =
-      (condition === 'loggedIn' && isLoggedIn) ||
-      (condition === 'notLoggedIn' && !isLoggedIn);
+      (condition === 'private' && isLoggedIn) ||
+      (condition === 'public' && !isLoggedIn);
 
     if (shouldRedirect) {
       router.push(redirectTo);
@@ -31,8 +31,8 @@ const AuthGuard: React.FC<AuthGuardProps> = ({
   }, [isLoggedIn, router, redirectTo, condition]);
 
   const shouldRender =
-    (condition === 'loggedIn' && !isLoggedIn) ||
-    (condition === 'notLoggedIn' && isLoggedIn);
+    (condition === 'private' && !isLoggedIn) ||
+    (condition === 'public' && isLoggedIn);
 
   if (!shouldRender) return null;
 

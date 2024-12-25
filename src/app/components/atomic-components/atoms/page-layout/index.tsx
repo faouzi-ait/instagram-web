@@ -8,10 +8,12 @@ interface PageLayoutProps {
 
 const PageLayout = ({ title, children }: PageLayoutProps) => {
   return (
-    <div className={styles.pageLayout}>
-      <h1 className={styles.title}>{title}</h1>
+    <main className={styles.pageLayout} aria-labelledby='page-title'>
+      <h1 id='page-title' className={styles.title}>
+        {title}
+      </h1>
       {children}
-    </div>
+    </main>
   );
 };
 

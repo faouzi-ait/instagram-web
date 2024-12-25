@@ -7,7 +7,7 @@ import HeaderSection from '../organism/header-section';
 export interface PageLayoutDisplayProps {
   children: React.ReactNode;
   title: string;
-  condition: 'loggedIn' | 'notLoggedIn';
+  condition: 'private' | 'public';
   redirectTo: string;
 }
 

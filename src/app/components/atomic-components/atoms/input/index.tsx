@@ -1,17 +1,19 @@
 import React, { forwardRef } from 'react';
-
 import styles from './input.module.css';
 
 interface InputFieldProps {
   placeholder?: string;
-  type?: string;
-  value?: any;
+  type?: 'text' | 'password' | 'email' | 'number' | 'file' | 'url';
+  value?: string | number;
   name?: string;
-  // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties;
   className?: string;
   required?: boolean;
+  disabled?: boolean; // Optional prop for disabling the input
+  testId?: string; // For testing purposes
+  autoComplete?: string; // HTML5 auto-complete
+  ariaLabel?: string; // For accessibility
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
@@ -21,10 +23,14 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       value,
       name,
       type = 'text',
-      onChange,
+      onChange = () => {}, // Provide a default no-op function
       style,
       className,
       required = false,
+      disabled = false,
+      testId,
+      autoComplete = 'off',
+      ariaLabel,
     },
     ref
   ) => {
@@ -39,11 +45,15 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         style={{ padding: '4px', ...style }}
         className={`${styles.inputStyle} ${className}`}
         required={required}
+        disabled={disabled}
+        autoComplete={autoComplete}
+        aria-label={ariaLabel || placeholder}
+        data-testid={testId}
       />
     );
   }
 );
 
-InputField.displayName = 'InputField'; // Add a display name for debugging purposes
+InputField.displayName = 'InputField';
 
 export default InputField;

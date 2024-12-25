@@ -84,7 +84,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <PageLayoutDisplay title='Register' condition='loggedIn' redirectTo='/'>
+    <PageLayoutDisplay title='Register' condition='private' redirectTo='/'>
       <form onSubmit={handleSubmit} className='formLayout'>
         {inputFields(fileInputRef).map((field, index) => (
           <InputField

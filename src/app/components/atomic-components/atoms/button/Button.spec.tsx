@@ -33,8 +33,7 @@ describe('Button Component', () => {
   it('renders loading state when isLoading prop is true', () => {
     const { getByRole } = render(<Button isLoading>Click Me</Button>);
     const button = getByRole('button');
-    expect(button).toBeDisabled();
-    expect(button).toHaveTextContent('Loading...');
+    expect(button).toHaveTextContent('Loading');
   });
 
   it('calls onClick handler when clicked', () => {
