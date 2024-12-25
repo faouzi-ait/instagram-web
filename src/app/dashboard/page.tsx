@@ -135,7 +135,7 @@ export default function Dashboard() {
           />
 
           <Message
-            condition={detailError}
+            condition={!!detailError}
             text={'There was an error while updating info'}
             isError
           />
@@ -207,7 +207,7 @@ export default function Dashboard() {
           />
 
           <Message
-            condition={photoError}
+            condition={!!photoError}
             text='There was an error during upload...'
             isError
           />
