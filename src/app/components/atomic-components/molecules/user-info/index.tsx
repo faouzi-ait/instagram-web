@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from '../../atoms/avatar';
 import NameLabel from '../../atoms/name-label';
 
-interface UserProfileProps {
+export interface UserProfileProps {
   photo: string;
   name: string;
   alt: string;

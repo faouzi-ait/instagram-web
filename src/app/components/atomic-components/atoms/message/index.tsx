@@ -1,28 +1,37 @@
+import React from 'react';
+
 type MessageProps = {
-  condition: any;
+  condition: boolean;
   text: string;
   isError?: boolean;
+  'aria-live'?: 'polite' | 'assertive' | 'off';
 };
 
-const Message = ({
+const Message: React.FC<MessageProps> = ({
   condition,
   text,
   isError = false,
+  'aria-live': ariaLive = 'polite',
   ...rest
-}: MessageProps) => {
-  const color = `${isError ? 'red' : 'green'}`;
+}) => {
+  if (!condition) {
+    return null;
+  }
+
+  const color = isError ? 'red' : 'green';
+
   return (
-    condition && (
-      <p
-        style={{
-          color: color,
-          fontWeight: 'bold',
-        }}
-        {...rest}
-      >
-        {text}
-      </p>
-    )
+    <p
+      style={{
+        color,
+        fontWeight: 'bold',
+      }}
+      role='alert'
+      aria-live={ariaLive}
+      {...rest}
+    >
+      {text}
+    </p>
   );
 };
 

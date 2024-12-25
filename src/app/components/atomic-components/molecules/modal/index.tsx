@@ -27,7 +27,11 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
   };
 
   const modalContent = (
-    <div className={styles.overlay} onClick={handleCloseClick}>
+    <div
+      className={styles.overlay}
+      onClick={handleCloseClick}
+      data-testid='modal-overlay'
+    >
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <Button onClick={onClose} variant='secondary' size='small'>
           <span className={styles.closeButton} aria-hidden='true'>

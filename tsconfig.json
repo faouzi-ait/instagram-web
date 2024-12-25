@@ -31,7 +31,9 @@
     "src/redux/slices/index.js",
     "src/redux/store.ts",
     "src/app/page.js",
-    "src/app/components/atomic-components/atoms/input/input.module.tsxcss"
+    "src/app/components/atomic-components/atoms/input/input.module.tsxcss",
+    "src/app/components/atomic-components/molecules/comment-input/CommentInputField.stories.tsx",
+    "src/app/components/atomic-components/molecules/comment-input/CommentInputField.spec.tsx"
   ],
   "exclude": ["node_modules"]
 }

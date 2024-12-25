@@ -39,9 +39,10 @@
 }
 
 .delete {
-  color: red;
   display: flex;
   align-items: center;
+  height: 1rem;
+  color: red;
   font-size: 0.85rem;
 }
 

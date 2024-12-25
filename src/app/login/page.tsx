@@ -52,7 +52,7 @@ export default function LoginPage() {
   return (
     <PageLayoutDisplay
       title='Your Instagram'
-      condition='loggedIn'
+      condition='private'
       redirectTo='/'
     >
       <form onSubmit={handleSubmit} className='formLayout'>

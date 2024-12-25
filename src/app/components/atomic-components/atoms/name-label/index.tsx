@@ -4,12 +4,14 @@ interface NameLabelProps {
   name: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const NameLabel: React.FC<NameLabelProps> = ({
   name,
   size = 'medium',
   style,
+  className,
 }) => {
   const sizeMap = {
     xsmall: '8px',
@@ -19,15 +21,19 @@ const NameLabel: React.FC<NameLabelProps> = ({
   };
 
   return (
-    <div
+    <p
+      className={className}
       style={{
         fontSize: sizeMap[size],
         fontWeight: 'bold',
         ...style,
       }}
+      role='text'
+      aria-label={`Name label: ${name}`}
+      tabIndex={0}
     >
       {name}
-    </div>
+    </p>
   );
 };
 

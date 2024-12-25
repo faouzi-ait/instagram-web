@@ -103,7 +103,7 @@ export default function Dashboard() {
   return (
     <PageLayoutDisplay
       title='Update your details'
-      condition='notLoggedIn'
+      condition='public'
       redirectTo='/'
     >
       <div className={styles.dashboardContainer}>
