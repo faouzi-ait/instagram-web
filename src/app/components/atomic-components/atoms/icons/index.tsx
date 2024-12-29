@@ -10,8 +10,6 @@ export interface IconProps {
   style?: CSSProperties;
   className?: string;
   onClick?: () => void;
-  testId?: string;
-  label?: string;
 }
 
 export default function Icon({
@@ -21,8 +19,6 @@ export default function Icon({
   style: customStyle,
   className,
   onClick,
-  testId,
-  label,
 }: IconProps) {
   const iconFileName = iconMap[name];
   const IconSvg = React.useMemo(
@@ -35,36 +31,22 @@ export default function Icon({
   }
 
   return (
-    <Suspense
-      fallback={
-        <figure
-          style={{ width: size, height: size }}
-          data-testid={testId}
-          aria-label={label || 'Loading icon'}
-        ></figure>
-      }
-    >
-      <button
-        style={{
-          display: 'inline-flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: size,
-          height: size,
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          color,
-          ...customStyle,
-        }}
+    <Suspense fallback={<div style={{ width: size, height: size }}></div>}>
+      <span
+        style={
+          {
+            display: 'inline-block',
+            width: size + 'px',
+            height: size + 'px',
+            color,
+            ...customStyle,
+          } as unknown as CSSProperties
+        }
         className={className}
         onClick={onClick}
-        aria-label={label || name}
-        data-testid={testId}
-        type='button'
       >
         <IconSvg />
-      </button>
+      </span>
     </Suspense>
   );
 }
