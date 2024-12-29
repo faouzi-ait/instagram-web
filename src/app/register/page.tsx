@@ -89,7 +89,15 @@ export default function RegisterPage() {
         {inputFields(fileInputRef).map((field, index) => (
           <InputField
             key={index}
-            type={field.type as 'number' | 'password' | 'text' | 'file' | 'email' | 'url' || 'text'}
+            type={
+              (field.type as
+                | 'number'
+                | 'password'
+                | 'text'
+                | 'file'
+                | 'email'
+                | 'url') || 'text'
+            }
             ref={field.ref || null}
             name={field.name}
             placeholder={field.placeholder}

@@ -76,7 +76,11 @@ export default function LoginPage() {
           {isLoading ? 'Logging you in...' : 'Login'}
         </Button>
       </form>
-      <Message condition={!!error} text={error?.data?.error as string} isError />
+      <Message
+        condition={!!error}
+        text={error?.data?.error as string}
+        isError
+      />
     </PageLayoutDisplay>
   );
 }
